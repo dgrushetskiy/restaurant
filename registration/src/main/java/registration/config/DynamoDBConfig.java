@@ -1,4 +1,4 @@
-package config;
+package registration.config;
 
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -14,16 +14,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DynamoDBConfig {
 
-    @Value("${aws.dynamodb.endpoint}")
+    @Value("${amazon.dynamodb.endpoint}")
     private String dynamodbEndpoint;
 
-    @Value("${aws.region}")
+    @Value("${amazon.aws.region}")
     private String awsRegion;
 
-    @Value("${aws.dynamodb.accessKey}")
+    @Value("${amazon.aws.accesskey}")
     private String dynamodbAccessKey;
 
-    @Value("${aws.dynamodb.secretKey}")
+    @Value("${amazon.aws.secretkey}")
     private String dynamodbSecretKey;
 
 

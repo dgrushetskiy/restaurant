@@ -1,7 +1,7 @@
-package controller;
+package registration.controller;
 
-import model.Customer;
-import repository.CustomerRepository;
+import registration.model.Customer;
+import registration.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,12 +17,13 @@ public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
 
-    private final PasswordEncoder passwordEncoder;
-
     @Autowired
-    public CustomerController(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
+    private PasswordEncoder passwordEncoder;
+
+//    @Autowired
+//    public CustomerController(PasswordEncoder passwordEncoder) {
+//        this.passwordEncoder = passwordEncoder;
+//    }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Customer customer) {
