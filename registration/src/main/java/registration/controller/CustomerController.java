@@ -1,6 +1,7 @@
 package registration.controller;
 
 import registration.model.Customer;
+import registration.model.LoginModel;
 import registration.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,6 @@ public class CustomerController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    @Autowired
-//    public CustomerController(PasswordEncoder passwordEncoder) {
-//        this.passwordEncoder = passwordEncoder;
-//    }
-
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Customer customer) {
         Customer existingUser = customerRepository.getCustomerByEmail(customer.getEmail());
@@ -41,13 +37,13 @@ public class CustomerController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody Customer customer) {
-        Customer existingUser = customerRepository.getCustomerByEmail(customer.getEmail());
+    public ResponseEntity<String> loginUser(@RequestBody LoginModel loginObj) {
+        Customer existingUser = customerRepository.getCustomerByEmail(loginObj.getEmail());
         if (existingUser == null) {
             return ResponseEntity.badRequest().body("User not found");
         }
 
-        if (!passwordEncoder.matches(customer.getPassword(), existingUser.getPassword())) {
+        if (!passwordEncoder.matches(loginObj.getPassword(), existingUser.getPassword())) {
             return ResponseEntity.badRequest().body("Incorrect password");
         }
 
