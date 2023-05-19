@@ -1,9 +1,9 @@
-package addrestaurant.controller;
+package updatePrice.controller;
 
-import addrestaurant.model.Menu;
-import addrestaurant.model.MenuList;
-import addrestaurant.model.Restaurant;
-import addrestaurant.repository.RestaurantRepository;
+import updatePrice.model.Menu;
+import updatePrice.model.MenuList;
+import updatePrice.model.Restaurant;
+import updatePrice.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +23,7 @@ public class AddRestaurantController {
     private RestaurantRepository restaurantRepository;
 
     @PostMapping("/add-restaurant")
-    public ResponseEntity<String> registerUser(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<String> addRestaurant(@RequestBody Restaurant restaurant) {
         Restaurant existingRestaurant = restaurantRepository.getRestaurantByName(restaurant.getName());
 
         if (existingRestaurant != null) {

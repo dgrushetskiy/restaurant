@@ -1,12 +1,10 @@
-package addrestaurant.model;
+package addRestaurant.model;
 
-import addrestaurant.utility.MenuConverter;
+import addRestaurant.utility.MenuConverter;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor

@@ -1,4 +1,4 @@
-package addrestaurant.model;
+package addRestaurant.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;

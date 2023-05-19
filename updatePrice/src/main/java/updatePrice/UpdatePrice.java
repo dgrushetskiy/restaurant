@@ -1,11 +1,11 @@
-package addrestaurant;
+package updatePrice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AddRestaurant {
+public class UpdatePrice {
     public static void main(String[] args) {
-        SpringApplication.run(AddRestaurant.class, args);
+        SpringApplication.run(UpdatePrice.class, args);
     }
 }

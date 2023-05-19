@@ -1,8 +1,7 @@
-package addrestaurant.repository;
+package addRestaurant.repository;
 
-import addrestaurant.model.Restaurant;
+import addRestaurant.model.Restaurant;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
