@@ -1,6 +1,7 @@
 package addrestaurant.controller;
 
 import addrestaurant.model.Menu;
+import addrestaurant.model.MenuList;
 import addrestaurant.model.Restaurant;
 import addrestaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,9 @@ public class AddRestaurantController {
             return ResponseEntity.badRequest().body("Restaurant already exists");
         }
 
-        List<Menu> items = restaurant.getItems();
+        MenuList menuList = restaurant.getMenulist();
 
+        List<Menu> items = menuList.getItems();
         Pattern pattern = Pattern.compile("\\d+(\\.\\d+)?");
         for (Menu menu : items) {
 

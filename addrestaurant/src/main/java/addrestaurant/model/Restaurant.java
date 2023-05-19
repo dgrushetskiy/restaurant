@@ -22,8 +22,12 @@ public class Restaurant {
     private String address;
 
     @DynamoDBAttribute
-    @DynamoDBTypeConverted(converter = MenuConverter.class)
-    private List<Menu> items;
+    private MenuList menulist;
+
+//    @DynamoDBTypeConverted(converter = MenuConverter.class)
+//    public List<Menu> getItems() {
+//        return items;
+//    }
 
     public String getName() {
         return name;
@@ -41,11 +45,8 @@ public class Restaurant {
         this.address = address;
     }
 
-    public List<Menu> getItems() {
-        return items;
-    }
 
-    public void setItems(List<Menu> items) {
-        this.items = items;
-    }
+//    public void setItems(List<Menu> items) {
+//        this.items = items;
+//    }
 }

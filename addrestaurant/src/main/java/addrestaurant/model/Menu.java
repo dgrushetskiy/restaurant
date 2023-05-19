@@ -1,8 +1,23 @@
 package addrestaurant.model;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@DynamoDBDocument
 public class Menu {
+    @DynamoDBAttribute
     private String itemName;
+
+    @DynamoDBAttribute
     private String Ratings;
+
+    @DynamoDBAttribute
     private String price;
 
     public String getItemName() {
