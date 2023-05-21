@@ -9,6 +9,7 @@ import updatePrice.model.Restaurant;
 import updatePrice.repository.RestaurantRepository;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,12 +45,19 @@ public class UpdatePriceController {
         MenuList menuList = existingRestaurant.getMenulist();
         List<Menu> items = menuList.getItems();
 
+        AtomicBoolean itemFound = new AtomicBoolean(false);
         items.replaceAll(menu -> {
             if (menu.getItemName().equals(menuItemName)) {
                 menu.setPrice(newPrice);
+                itemFound.set(true);
             }
             return menu;
         });
+
+        if (!itemFound.get()) {
+            return ResponseEntity.badRequest().body("Menu item " + menuItemName + " under restaurant " + restaurantName + " is not found");
+        }
+
         menuList.setItems(items);
         existingRestaurant.setMenulist(menuList);
 
