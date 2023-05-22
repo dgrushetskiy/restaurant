@@ -1,4 +1,4 @@
-package searchFood.model;
-
-public class SearchResultList {
-}
+//package searchFood.model;
+//
+//public class SearchResultList {
+//}

@@ -24,13 +24,6 @@ public class Restaurant {
     private MenuList menuList;
 
 
-//    @DynamoDBTypeConverted(converter = MenuConverter.class)
-//    public List<Menu> getItems() {
-//        return items;
-//    }
-
-
-
     public String getAddress() {
         return address;
     }
