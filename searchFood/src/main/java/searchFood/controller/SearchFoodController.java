@@ -23,7 +23,7 @@ public class SearchFoodController {
 
 
     @GetMapping("/{criteria}/{criteriaValue}")
-    public ResponseEntity<List<SearchResult>> searchFood(
+    public ResponseEntity<Object> searchFood(
             @PathVariable String criteria,
             @PathVariable String criteriaValue
     ) {
@@ -33,7 +33,7 @@ public class SearchFoodController {
         } else if (criteria.equalsIgnoreCase("menuitem")) {
             myList = restaurantRepository.findAllItemsbyName(criteriaValue);
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("Invalid search criteria");
         }
 
         return ResponseEntity.ok(myList);
