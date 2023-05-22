@@ -24,13 +24,13 @@ public class AddRestaurantController {
 
     @PostMapping("/add-restaurant")
     public ResponseEntity<String> addRestaurant(@RequestBody Restaurant restaurant) {
-        Restaurant existingRestaurant = restaurantRepository.getRestaurantByName(restaurant.getName());
+        Restaurant existingRestaurant = restaurantRepository.getRestaurantByName(restaurant.getRestaurantName());
 
         if (existingRestaurant != null) {
             return ResponseEntity.badRequest().body("Restaurant already exists");
         }
 
-        MenuList menuList = restaurant.getMenulist();
+        MenuList menuList = restaurant.getMenuList();
 
         List<Menu> items = menuList.getItems();
         Pattern pattern = Pattern.compile("\\d+(\\.\\d+)?");

@@ -1,4 +1,4 @@
-package updatePrice.model;
+package searchFood.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
@@ -23,6 +23,14 @@ public class Restaurant {
     @DynamoDBAttribute
     private MenuList menuList;
 
+
+//    @DynamoDBTypeConverted(converter = MenuConverter.class)
+//    public List<Menu> getItems() {
+//        return items;
+//    }
+
+
+
     public String getAddress() {
         return address;
     }
@@ -46,4 +54,8 @@ public class Restaurant {
     public void setMenuList(MenuList menuList) {
         this.menuList = menuList;
     }
+
+//    public void setItems(List<Menu> items) {
+//        this.items = items;
+//    }
 }

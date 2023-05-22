@@ -1,6 +1,5 @@
 package addRestaurant.model;
 
-import addRestaurant.utility.MenuConverter;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,25 +13,28 @@ public class Restaurant {
 
     @DynamoDBHashKey
     @DynamoDBAttribute
-    private String name;
+    private String restaurantName;
 
     @DynamoDBAttribute
     private String address;
 
     @DynamoDBAttribute
-    private MenuList menulist;
+    private MenuList menuList;
 
-//    @DynamoDBTypeConverted(converter = MenuConverter.class)
-//    public List<Menu> getItems() {
-//        return items;
-//    }
-
-    public String getName() {
-        return name;
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
+    public MenuList getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(MenuList menuList) {
+        this.menuList = menuList;
     }
 
     public String getAddress() {
@@ -43,8 +45,4 @@ public class Restaurant {
         this.address = address;
     }
 
-
-//    public void setItems(List<Menu> items) {
-//        this.items = items;
-//    }
 }

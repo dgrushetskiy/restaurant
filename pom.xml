@@ -6,6 +6,7 @@
 		<module>registration</module>
         <module>addrestaurant</module>
         <module>updatePrice</module>
+        <module>searchFood</module>
     </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>

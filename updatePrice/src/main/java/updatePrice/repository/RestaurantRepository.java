@@ -16,7 +16,7 @@ public class RestaurantRepository {
         return restaurant;
     }
 
-    public Restaurant getRestaurantByName(String name) {
+    public Restaurant getRestaurantByRestaurantName(String name) {
         return dynamoDBMapper.load(Restaurant.class, name);
     }
 

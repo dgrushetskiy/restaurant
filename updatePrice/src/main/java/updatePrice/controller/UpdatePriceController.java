@@ -26,7 +26,7 @@ public class UpdatePriceController {
             @RequestParam String menuItemName,
             @RequestParam String newPrice
     ) {
-        Restaurant existingRestaurant = restaurantRepository.getRestaurantByName(restaurantName);
+        Restaurant existingRestaurant = restaurantRepository.getRestaurantByRestaurantName(restaurantName);
         if (existingRestaurant == null) {
             return ResponseEntity.badRequest().body("Restaurant not found");
         }
@@ -42,7 +42,7 @@ public class UpdatePriceController {
             return ResponseEntity.badRequest().body("Price " + newPrice + " of item " + menuItemName + " under restaurant " + restaurantName + " is outside allowed range 100-200");
         }
 
-        MenuList menuList = existingRestaurant.getMenulist();
+        MenuList menuList = existingRestaurant.getMenuList();
         List<Menu> items = menuList.getItems();
 
         AtomicBoolean itemFound = new AtomicBoolean(false);
@@ -59,7 +59,7 @@ public class UpdatePriceController {
         }
 
         menuList.setItems(items);
-        existingRestaurant.setMenulist(menuList);
+        existingRestaurant.setMenuList(menuList);
 
         restaurantRepository.saveRestaurant(existingRestaurant);
 
