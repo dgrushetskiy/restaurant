@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-
+@CrossOrigin(origins = "http://localhost:3001")
 @RestController
 @RequestMapping("/food/api/v1/user")
 public class SearchFoodController {

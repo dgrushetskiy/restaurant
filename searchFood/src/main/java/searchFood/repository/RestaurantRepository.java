@@ -110,6 +110,9 @@ public class RestaurantRepository {
                             .filter(menu -> menu.getItemName().equals(itemName))
                             .map(menu -> mapToSearchResultByItem(menu, restaurant)))
                     .collect(Collectors.toList());
+            if (results.size() == 0){
+                LOGGER.warn("Item not found: {}", itemName);
+            }
         } catch (Exception e) {
             LOGGER.error("Error occurred while finding items by name", e);
         }
