@@ -21,7 +21,13 @@ public class SearchFoodController {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-
+    /**
+     * Handles the search food request based on the given criteria and criteria value.
+     *
+     * @param criteria      The search criteria (restaurantname or menuitem).
+     * @param criteriaValue The value to search for in the specified criteria.
+     * @return ResponseEntity containing the search results or error message.
+     */
     @GetMapping("/{criteria}/{criteriaValue}")
     public ResponseEntity<Object> searchFood(
             @PathVariable String criteria,

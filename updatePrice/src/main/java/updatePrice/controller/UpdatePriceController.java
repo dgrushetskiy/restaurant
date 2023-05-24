@@ -24,6 +24,14 @@ public class UpdatePriceController {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    /**
+     * Updates the price for a specific menu item in a restaurant.
+     *
+     * @param restaurantName The name of the restaurant.
+     * @param menuItemName   The name of the menu item.
+     * @param newPrice       The new price for the menu item.
+     * @return ResponseEntity containing the status of the price update or error message.
+     */
     @PostMapping("/update-price/menu/{restaurantName}")
     public ResponseEntity<String> updatePrice(
             @PathVariable String restaurantName,

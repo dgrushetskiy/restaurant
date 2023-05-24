@@ -25,9 +25,16 @@ public class AddRestaurantController {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    /**
+     * Adds a new restaurant with menu details.
+     *
+     * @param restaurant The Restaurant object to be added.
+     * @return ResponseEntity with success message if the restaurant is added successfully, or error message if validation or database error occurs.
+     */
     @PostMapping("/add-restaurant")
     public ResponseEntity<String> addRestaurant(@RequestBody Restaurant restaurant) {
         try {
+            // Check if the restaurant already exists
             Restaurant existingRestaurant = restaurantRepository.getRestaurantByName(restaurant.getRestaurantName());
 
             LOGGER.info("Adding restaurant: {}", restaurant.getRestaurantName());
@@ -42,9 +49,11 @@ public class AddRestaurantController {
             List<Menu> items = menuList.getItems();
             Pattern pattern = Pattern.compile("\\d+(\\.\\d+)?");
 
+            // Validate the menu items
             for (Menu menu : items) {
                 LOGGER.info("Validating item: {}", menu.getItemName());
                 Matcher matcher = pattern.matcher(menu.getPrice());
+                // Validate the price
                 if (!matcher.matches()) {
                     LOGGER.warn("Non-numeric price: {} for item: {}", menu.getPrice(), menu.getItemName());
                     return ResponseEntity.badRequest().body("Price " + menu.getPrice() + " of item " + menu.getItemName() + " is non-numeric");
@@ -56,6 +65,7 @@ public class AddRestaurantController {
                     return ResponseEntity.badRequest().body("Price " + menu.getPrice() + " of item " + menu.getItemName() + " is outside allowed range 100-200");
                 }
 
+                // Validate the ratings
                 matcher = pattern.matcher(menu.getRatings());
                 if (!matcher.matches()) {
                     LOGGER.warn("Non-numeric rating: {} for item: {}", menu.getRatings(), menu.getItemName());
@@ -69,6 +79,7 @@ public class AddRestaurantController {
                 }
             }
 
+            // Save the restaurant to the database
             restaurantRepository.saveRestaurant(restaurant);
             LOGGER.info("Restaurant saved successfully: {}", restaurant.getRestaurantName());
 

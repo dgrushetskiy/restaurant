@@ -25,6 +25,12 @@ public class CustomerController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Registers a new user.
+     *
+     * @param customer The Customer object containing user details.
+     * @return ResponseEntity indicating the result of the registration process.
+     */
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Customer customer) {
         Customer existingUser = customerRepository.getCustomerByEmail(customer.getEmail());
@@ -49,6 +55,12 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Logs in a user.
+     *
+     * @param loginObj The LoginModel object containing login credentials.
+     * @return ResponseEntity indicating the result of the login process.
+     */
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody LoginModel loginObj) {
         Customer existingUser = customerRepository.getCustomerByEmail(loginObj.getEmail());
