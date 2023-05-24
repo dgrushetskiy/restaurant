@@ -21,5 +21,11 @@ public class CustomerRepository {
         return dynamoDBMapper.load(Customer.class, email);
     }
 
+    public DynamoDBMapper getDynamoDBMapper() {
+        return dynamoDBMapper;
+    }
 
+    public void setDynamoDBMapper(DynamoDBMapper dynamoDBMapper) {
+        this.dynamoDBMapper = dynamoDBMapper;
+    }
 }

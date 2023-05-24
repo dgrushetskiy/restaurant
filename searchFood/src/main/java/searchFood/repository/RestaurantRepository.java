@@ -22,6 +22,14 @@ public class RestaurantRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
+    public DynamoDBMapper getDynamoDBMapper() {
+        return dynamoDBMapper;
+    }
+
+    public void setDynamoDBMapper(DynamoDBMapper dynamoDBMapper) {
+        this.dynamoDBMapper = dynamoDBMapper;
+    }
+
     /**
      * Saves a restaurant to the DynamoDB table.
      *
