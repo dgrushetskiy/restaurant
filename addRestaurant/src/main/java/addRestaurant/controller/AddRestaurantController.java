@@ -27,8 +27,9 @@ public class AddRestaurantController {
 
     @PostMapping("/add-restaurant")
     public ResponseEntity<String> addRestaurant(@RequestBody Restaurant restaurant) {
-        Restaurant existingRestaurant = restaurantRepository.getRestaurantByName(restaurant.getRestaurantName());
         try {
+            Restaurant existingRestaurant = restaurantRepository.getRestaurantByName(restaurant.getRestaurantName());
+
             LOGGER.info("Adding restaurant: {}", restaurant.getRestaurantName());
 
             if (existingRestaurant != null) {

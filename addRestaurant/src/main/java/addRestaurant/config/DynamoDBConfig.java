@@ -45,7 +45,7 @@ public class DynamoDBConfig {
      *
      * @return The configured AmazonDynamoDB client.
      */
-    private AmazonDynamoDB buildAmazonDynamoDB() {
+    public AmazonDynamoDB buildAmazonDynamoDB() {
         try{
             return AmazonDynamoDBClientBuilder
                 .standard()
