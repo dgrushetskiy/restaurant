@@ -29,9 +29,6 @@ public class UserController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-//    @Autowired
-//    private AuthenticationManager authenticationManager;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -100,48 +97,12 @@ public class UserController {
             return ResponseEntity.status(500).body("Internal Server Error");
         }
 
-//        try {
-//            AppUser existingAppUser = userRepository.getUserByEmail(loginObj.getEmail());
-//
-//            authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(loginObj.getEmail(), loginObj.getPassword())
-//            );
-//            System.out.println("Authenticated successfully");
-//        }
-//        catch (BadCredentialsException e) {
-//            return ResponseEntity.badRequest().body("Incorrect username or password");
-//        }
-
-
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(loginObj.getEmail());
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new Response(jwt));
 
-
-//        AppUser existingAppUser = userRepository.getUserByEmail(loginObj.getEmail());
-//        try {
-//            LOGGER.info("Logging in user with email: {}", loginObj.getEmail());
-//
-//            if (existingAppUser == null) {
-//                LOGGER.warn("AppUser with email {} not found", loginObj.getEmail());
-//
-//                return ResponseEntity.badRequest().body("AppUser not found");
-//            }
-//
-//            if (!passwordEncoder.matches(loginObj.getPassword(), existingAppUser.getPassword())) {
-//                LOGGER.warn("Incorrect password for user with email: {}", loginObj.getEmail());
-//
-//                return ResponseEntity.badRequest().body("Incorrect password");
-//            }
-//            LOGGER.info("AppUser logged in successfully with email: {}", loginObj.getEmail());
-//
-//            return ResponseEntity.ok("AppUser logged in successfully");
-//        }catch (Exception e) {
-//            LOGGER.error("Error occurred while logging in user with email: {}", loginObj.getEmail(), e);
-//            return ResponseEntity.status(500).body("Internal Server Error");
-//        }
     }
 
     @GetMapping("/test")

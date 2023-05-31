@@ -1,11 +1,9 @@
-package registration.config;
+package updatePrice.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -13,9 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import registration.repository.UserRepository;
-import registration.service.AppUserDetailsService;
-import registration.util.JwtTokenFilter;
+import updatePrice.repository.UserRepository;
+import updatePrice.service.AppUserDetailsService;
+import updatePrice.util.JwtTokenFilter;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -65,12 +63,9 @@ public class SecurityConfig  {
         http.authorizeRequests(authorize -> authorize
                 // Our public endpoints
                 .antMatchers("/swagger-ui/**", "/v3/api-docs/**", "/proxy/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/food/api/v1/user/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/food/api/v1/user/register").permitAll()
 
                 // Our private endpoints
-                .antMatchers(HttpMethod.GET, "/food/api/v1/user/test").hasAnyAuthority( "CUSTOMER")
-                .antMatchers(HttpMethod.GET, "/food/api/v1/user/best").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/food/api/v1/admin/**").hasAnyAuthority( "ADMIN")
                 .anyRequest().authenticated()
         );
 
