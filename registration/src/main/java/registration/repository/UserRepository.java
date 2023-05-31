@@ -2,25 +2,25 @@ package registration.repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
-import registration.model.Customer;
+import registration.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CustomerRepository {
+public class UserRepository {
 
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
     /**
-     * Saves a customer to the DynamoDB table.
+     * Saves a appUser to the DynamoDB table.
      *
-     * @param customer The Customer object to be saved.
-     * @return The saved customer.
+     * @param appUser The AppUser object to be saved.
+     * @return The saved appUser.
      */
-    public Customer saveCustomer(Customer customer) {
-        dynamoDBMapper.save(customer);
-        return customer;
+    public AppUser saveUser(AppUser appUser) {
+        dynamoDBMapper.save(appUser);
+        return appUser;
     }
 
     /**
@@ -29,8 +29,8 @@ public class CustomerRepository {
      * @param email The email of the customer to retrieve.
      * @return The retrieved customer or null if not found.
      */
-    public Customer getCustomerByEmail(String email) {
-        return dynamoDBMapper.load(Customer.class, email);
+    public AppUser getUserByEmail(String email) {
+        return dynamoDBMapper.load(AppUser.class, email);
     }
 
     /**

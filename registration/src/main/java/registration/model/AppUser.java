@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamoDBTable(tableName = "customer")
-public class Customer {
+@DynamoDBTable(tableName = "user")
+public class AppUser {
 
     @DynamoDBHashKey
     @DynamoDBAttribute
