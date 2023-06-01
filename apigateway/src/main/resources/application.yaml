@@ -1,0 +1,36 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: apigateway
+  cloud:
+    gateway:
+      routes:
+        - id: addrestaurant-route-id
+          uri: lb://addrestaurant
+          predicates:
+            - Path=/food/api/v1/admin/add-restaurant/**
+        - id: updateprice-route-id
+          uri: lb://updateprice
+          predicates:
+            - Path=/food/api/v1/admin/update-price/**
+        - id: registration-route-id
+          uri: lb://registration
+          predicates:
+            - Path=/food/api/v1/user/register/**
+        - id: search-route-id
+          uri: lb://searchfood
+          predicates:
+            - Path=/food/api/v1/user/restaurantname/**
+        - id: search-route-id
+          uri: lb://searchfood
+          predicates:
+            - Path=/food/api/v1/user/menuitem/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    hostname: localhost

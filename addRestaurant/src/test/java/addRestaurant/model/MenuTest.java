@@ -14,7 +14,7 @@ class MenuTest {
 
         // Act
         Menu menu = new Menu();
-        menu.setItemName(itemName);
+        menu.setItemName("Pizza");
         menu.setRatings(ratings);
         menu.setPrice(price);
 
@@ -32,7 +32,7 @@ class MenuTest {
         String price = "10.99";
 
         // Create an instance using the all-args constructor
-        Menu menu = new Menu(itemName, ratings, price);
+        Menu menu = new Menu("Burger", ratings, price);
 
         // Assert that the instance variables are set correctly
         assertEquals(itemName, menu.getItemName());

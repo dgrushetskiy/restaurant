@@ -71,12 +71,12 @@ class AddRestaurantControllerTest {
         restaurant.setAddress("123 Main St");
 
         Menu menu1 = new Menu();
-        menu1.setItemName("Item 1");
+        menu1.setItemName("Naan");
         menu1.setRatings("9.5");
         menu1.setPrice("150.0");
 
         Menu menu2 = new Menu();
-        menu2.setItemName("Item 2");
+        menu2.setItemName("French Fries");
         menu2.setRatings("8.0");
         menu2.setPrice("120.0");
 
@@ -101,7 +101,7 @@ class AddRestaurantControllerTest {
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
         Menu menu = new Menu();
-        menu.setItemName("Item 1");
+        menu.setItemName("Burger");
         menu.setPrice("110");
         menu.setRatings("abcd");// Invalid rating
         items.add(menu);
@@ -125,7 +125,7 @@ class AddRestaurantControllerTest {
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
         Menu menu = new Menu();
-        menu.setItemName("Item 1");
+        menu.setItemName("Pizza");
         menu.setPrice("110");
         menu.setRatings("0.1");// Invalid rating
         items.add(menu);
@@ -149,7 +149,7 @@ class AddRestaurantControllerTest {
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
         Menu menu = new Menu();
-        menu.setItemName("Item 1");
+        menu.setItemName("French Fries");
         menu.setPrice("110");
         menu.setRatings("10.1");// Invalid rating
         items.add(menu);
@@ -173,7 +173,7 @@ class AddRestaurantControllerTest {
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
         Menu menu = new Menu();
-        menu.setItemName("Item 1");
+        menu.setItemName("Burger");
         menu.setPrice("abc"); // Invalid price
         menu.setRatings("8.5");
         items.add(menu);
@@ -197,7 +197,7 @@ class AddRestaurantControllerTest {
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
         Menu menu = new Menu();
-        menu.setItemName("Item 1");
+        menu.setItemName("Pizza");
         menu.setPrice("99"); // Invalid price
         menu.setRatings("8.5");
         items.add(menu);
@@ -221,7 +221,7 @@ class AddRestaurantControllerTest {
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
         Menu menu = new Menu();
-        menu.setItemName("Item 1");
+        menu.setItemName("Burger");
         menu.setPrice("201"); // Invalid price
         menu.setRatings("8.5");
         items.add(menu);
@@ -245,7 +245,7 @@ class AddRestaurantControllerTest {
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
         Menu menu = new Menu();
-        menu.setItemName("Item 1");
+        menu.setItemName("Pizza");
         menu.setPrice("135");
         menu.setRatings("8.5");
         items.add(menu);

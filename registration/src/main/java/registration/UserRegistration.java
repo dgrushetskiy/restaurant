@@ -5,10 +5,12 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import registration.model.AppUser;
 import registration.repository.UserRepository;
 
+@EnableEurekaClient
 @SpringBootApplication
 public class UserRegistration  implements ApplicationRunner {
 

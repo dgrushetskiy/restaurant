@@ -59,6 +59,10 @@ public class AddRestaurantController {
                     return ResponseEntity.badRequest().body("Price " + menu.getPrice() + " of item " + menu.getItemName() + " is non-numeric");
                 }
 
+                if (!isValidValue(String.valueOf(menu.getItemName()))){
+                    LOGGER.warn("Invalid item name: {}", menu.getItemName());
+                    return ResponseEntity.badRequest().body("Item name " + menu.getItemName() + " is invalid");
+                }
                 double price = Double.parseDouble(menu.getPrice());
                 if (price < 100 || price > 200) {
                     LOGGER.warn("Invalid price range: {} for item: {}", menu.getPrice(), menu.getItemName());
@@ -88,5 +92,14 @@ public class AddRestaurantController {
             LOGGER.error("Error occurred while adding restaurant: {}", restaurant.getRestaurantName(), e);
             return ResponseEntity.status(500).body("Internal Server Error");
         }
+    }
+
+    public static boolean isValidValue(String value) {
+        for (Menu.ItemName itemName : Menu.ItemName.values()) {
+            if (itemName.getValue().equals(value)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

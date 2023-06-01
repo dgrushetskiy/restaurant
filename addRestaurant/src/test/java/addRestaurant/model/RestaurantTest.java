@@ -31,9 +31,9 @@ class RestaurantTest {
     @Test
     void constructor_AllArgsConstructor() {
         // Create sample menu items
-        Menu menu1 = new Menu("Item 1", "4.5", "10.99");
-        Menu menu2 = new Menu("Item 2", "4.2", "8.99");
-        Menu menu3 = new Menu("Item 3", "3.7", "6.99");
+        Menu menu1 = new Menu("French Fries", "4.5", "10.99");
+        Menu menu2 = new Menu("Pizza", "4.2", "8.99");
+        Menu menu3 = new Menu("Burger", "3.7", "6.99");
 
         // Create a menu list with the menu items
         MenuList menuList = new MenuList(Arrays.asList(menu1, menu2, menu3));
