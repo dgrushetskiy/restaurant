@@ -1,11 +1,11 @@
 package searchFood.model;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -23,6 +23,11 @@ public class Restaurant {
     @DynamoDBAttribute
     private MenuList menuList;
 
+    @DynamoDBAttribute
+    private String createdAt;
+
+    @DynamoDBAttribute
+    private String updatedAt;
 
     public String getAddress() {
         return address;
@@ -48,7 +53,5 @@ public class Restaurant {
         this.menuList = menuList;
     }
 
-//    public void setItems(List<Menu> items) {
-//        this.items = items;
-//    }
+
 }

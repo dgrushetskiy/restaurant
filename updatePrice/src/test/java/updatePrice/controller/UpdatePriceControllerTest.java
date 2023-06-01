@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import updatePrice.model.Menu;
 import updatePrice.model.MenuList;
+import updatePrice.model.PriceUpdateRequest;
 import updatePrice.model.Restaurant;
 import updatePrice.repository.RestaurantRepository;
 
@@ -44,8 +45,9 @@ class UpdatePriceControllerTest {
         Restaurant existingRestaurant = createRestaurantWithMenuItems();
         when(restaurantRepository.getRestaurantByRestaurantName(restaurantName)).thenReturn(existingRestaurant);
 
+        PriceUpdateRequest priceUpdateRequest = new PriceUpdateRequest(menuItemName, newPrice);
         // Act
-        ResponseEntity<String> response = updatePriceController.updatePrice(restaurantName, menuItemName, newPrice);
+        ResponseEntity<String> response = updatePriceController.updatePrice(restaurantName, priceUpdateRequest);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -71,9 +73,9 @@ class UpdatePriceControllerTest {
         String newPrice = "invalid";
         Restaurant existingRestaurant = createRestaurantWithMenuItems();
         when(restaurantRepository.getRestaurantByRestaurantName(restaurantName)).thenReturn(existingRestaurant);
-
+        PriceUpdateRequest priceUpdateRequest = new PriceUpdateRequest(menuItemName, newPrice);
         // Act
-        ResponseEntity<String> response = updatePriceController.updatePrice(restaurantName, menuItemName, newPrice);
+        ResponseEntity<String> response = updatePriceController.updatePrice(restaurantName, priceUpdateRequest);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -89,9 +91,9 @@ class UpdatePriceControllerTest {
         String newPrice = "300.00";
         Restaurant existingRestaurant = createRestaurantWithMenuItems();
         when(restaurantRepository.getRestaurantByRestaurantName(restaurantName)).thenReturn(existingRestaurant);
-
+        PriceUpdateRequest priceUpdateRequest = new PriceUpdateRequest(menuItemName, newPrice);
         // Act
-        ResponseEntity<String> response = updatePriceController.updatePrice(restaurantName, menuItemName, newPrice);
+        ResponseEntity<String> response = updatePriceController.updatePrice(restaurantName, priceUpdateRequest);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -106,9 +108,9 @@ class UpdatePriceControllerTest {
         String menuItemName = "Pizza";
         String newPrice = "150.00";
         when(restaurantRepository.getRestaurantByRestaurantName(restaurantName)).thenReturn(null);
-
+        PriceUpdateRequest priceUpdateRequest = new PriceUpdateRequest(menuItemName, newPrice);
         // Act
-        ResponseEntity<String> response = updatePriceController.updatePrice(restaurantName, menuItemName, newPrice);
+        ResponseEntity<String> response = updatePriceController.updatePrice(restaurantName, priceUpdateRequest);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

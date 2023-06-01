@@ -5,9 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import updatePrice.model.Menu;
 import updatePrice.model.MenuList;
+import updatePrice.model.PriceUpdateRequest;
 import updatePrice.model.Restaurant;
 import updatePrice.repository.RestaurantRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
@@ -28,24 +30,29 @@ public class UpdatePriceController {
      * Updates the price for a specific menu item in a restaurant.
      *
      * @param restaurantName The name of the restaurant.
-     * @param menuItemName   The name of the menu item.
-     * @param newPrice       The new price for the menu item.
+     * @param priceUpdateRequest   The name of the menu item.
      * @return ResponseEntity containing the status of the price update or error message.
      */
     @PostMapping("/update-price/menu/{restaurantName}")
     public ResponseEntity<String> updatePrice(
-            @PathVariable String restaurantName,
-            @RequestParam String menuItemName,
-            @RequestParam String newPrice
+            @PathVariable String restaurantName, @RequestBody PriceUpdateRequest priceUpdateRequest
     ) {
 
         try {
+            String menuItemName = priceUpdateRequest.getMenuItemName();
+            String newPrice = priceUpdateRequest.getNewPrice();
+
             LOGGER.info("Updating price for item: {} in restaurant: {}", menuItemName, restaurantName);
 
             Restaurant existingRestaurant = restaurantRepository.getRestaurantByRestaurantName(restaurantName);
             if (existingRestaurant == null) {
                 LOGGER.warn("Restaurant not found: {}", restaurantName);
                 return ResponseEntity.badRequest().body("Restaurant not found");
+            }
+
+            if (!isValidValue(menuItemName)){
+                LOGGER.warn("Invalid item name: {}", menuItemName);
+                return ResponseEntity.badRequest().body("Item name " + menuItemName + " is invalid");
             }
 
             Pattern pattern = Pattern.compile("\\d+(\\.\\d+)?");
@@ -81,13 +88,22 @@ public class UpdatePriceController {
             menuList.setItems(items);
             existingRestaurant.setMenuList(menuList);
 
+            existingRestaurant.setUpdatedAt(String.valueOf(LocalDateTime.now()));
             restaurantRepository.saveRestaurant(existingRestaurant);
             LOGGER.info("Price updated successfully for item: {} in restaurant: {}", menuItemName, restaurantName);
             return ResponseEntity.ok("Price updated successfully");
         } catch (Exception e) {
-            LOGGER.error("Error occurred while updating price for item: {} in restaurant: {}", menuItemName, restaurantName, e);
+            LOGGER.error("Error occurred while updating price for item: {} in restaurant: {}", priceUpdateRequest.getMenuItemName(), restaurantName, e);
             return ResponseEntity.status(500).body("Internal Server Error");
         }
+    }
+    public static boolean isValidValue(String value) {
+        for (Menu.ItemName itemName : Menu.ItemName.values()) {
+            if (itemName.getValue().equals(value)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -11,6 +11,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @DynamoDBDocument
 public class Menu {
+
+    public enum ItemName {
+        Naan("Naan"),
+        Pizza("Pizza"),
+        Burger("Burger"),
+        Fries("French Fries");
+
+        private final String value;
+
+        ItemName(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
     @DynamoDBAttribute
     private String itemName;
 

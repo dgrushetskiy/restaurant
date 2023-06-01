@@ -2,6 +2,7 @@ package addRestaurant.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,18 +40,18 @@ class RestaurantTest {
         MenuList menuList = new MenuList(Arrays.asList(menu1, menu2, menu3));
 
         // Create an instance using the all-args constructor
-        Restaurant restaurant = new Restaurant("Restaurant 1", "Address 1", menuList);
+        RestaurantRequest restaurantRequest = new RestaurantRequest("Restaurant 1", "Address 1", menuList);
 
         // Assert that the instance is not null
-        assertNotNull(restaurant);
+        assertNotNull(restaurantRequest);
 
         // Assert that the restaurant name is set correctly
-        assertEquals("Restaurant 1", restaurant.getRestaurantName());
+        assertEquals("Restaurant 1", restaurantRequest.getRestaurantName());
 
         // Assert that the address is set correctly
-        assertEquals("Address 1", restaurant.getAddress());
+        assertEquals("Address 1", restaurantRequest.getAddress());
 
         // Assert that the menu list is set correctly
-        assertEquals(menuList, restaurant.getMenuList());
+        assertEquals(menuList, restaurantRequest.getMenuList());
     }
 }

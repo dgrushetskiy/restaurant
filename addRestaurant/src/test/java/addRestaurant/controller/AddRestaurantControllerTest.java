@@ -3,6 +3,7 @@ package addRestaurant.controller;
 import addRestaurant.model.Menu;
 import addRestaurant.model.MenuList;
 import addRestaurant.model.Restaurant;
+import addRestaurant.model.RestaurantRequest;
 import addRestaurant.repository.RestaurantRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,12 +36,17 @@ class AddRestaurantControllerTest {
     @Test
     void testAddRestaurant_WithValidRestaurant_ReturnsSuccessResponse() {
         // Arrange
-        Restaurant restaurant = createValidRestaurant();
-        when(restaurantRepository.getRestaurantByName(restaurant.getRestaurantName())).thenReturn(null);
+        RestaurantRequest restaurantRequest = createValidRestaurant();
+        when(restaurantRepository.getRestaurantByName(restaurantRequest.getRestaurantName())).thenReturn(null);
+
+        Restaurant restaurant = new Restaurant();
+        restaurant.setRestaurantName(restaurantRequest.getRestaurantName());
+        restaurant.setMenuList(restaurantRequest.getMenuList());
+        restaurant.setAddress(restaurantRequest.getAddress());
         when(restaurantRepository.saveRestaurant(restaurant)).thenReturn(restaurant);
 
         // Act
-        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurant);
+        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurantRequest);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -52,21 +58,27 @@ class AddRestaurantControllerTest {
     @Test
     void testAddRestaurant_WithExistingRestaurant_ReturnsBadRequestResponse() {
         // Arrange
-        Restaurant restaurant = createValidRestaurant();
-        when(restaurantRepository.getRestaurantByName(restaurant.getRestaurantName())).thenReturn(restaurant);
+        RestaurantRequest restaurantRequest = createValidRestaurant();
+        Restaurant restaurant = new Restaurant();
+        when(restaurantRepository.getRestaurantByName(restaurantRequest.getRestaurantName())).thenReturn(restaurant);
+
+
+        //restaurant.setRestaurantName(restaurantRequest.getRestaurantName());
+        //restaurant.setMenuList(restaurantRequest.getMenuList());
+        //restaurant.setAddress(restaurantRequest.getAddress());
 
         // Act
-        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurant);
+        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurantRequest);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Restaurant already exists", response.getBody());
-        verify(restaurantRepository, times(1)).getRestaurantByName(restaurant.getRestaurantName());
+        verify(restaurantRepository, times(1)).getRestaurantByName(restaurantRequest.getRestaurantName());
         verify(restaurantRepository, never()).saveRestaurant(restaurant);
     }
 
-    private Restaurant createValidRestaurant() {
-        Restaurant restaurant = new Restaurant();
+    private RestaurantRequest createValidRestaurant() {
+        RestaurantRequest restaurant = new RestaurantRequest();
         restaurant.setRestaurantName("Restaurant A");
         restaurant.setAddress("123 Main St");
 
@@ -95,8 +107,8 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_NonNumericRating() {
         // Create a sample restaurant with an invalid price
-        Restaurant restaurant = new Restaurant();
-        restaurant.setRestaurantName("New Restaurant");
+        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
@@ -106,10 +118,10 @@ class AddRestaurantControllerTest {
         menu.setRatings("abcd");// Invalid rating
         items.add(menu);
         menuList.setItems(items);
-        restaurant.setMenuList(menuList);
+        restaurantRequest.setMenuList(menuList);
 
         // Call the controller method
-        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurant);
+        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurantRequest);
 
         // Verify that the response is a bad request with the expected error message
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -119,8 +131,8 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_TooLowRating() {
         // Create a sample restaurant with an invalid price
-        Restaurant restaurant = new Restaurant();
-        restaurant.setRestaurantName("New Restaurant");
+        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
@@ -130,10 +142,10 @@ class AddRestaurantControllerTest {
         menu.setRatings("0.1");// Invalid rating
         items.add(menu);
         menuList.setItems(items);
-        restaurant.setMenuList(menuList);
+        restaurantRequest.setMenuList(menuList);
 
         // Call the controller method
-        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurant);
+        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurantRequest);
 
         // Verify that the response is a bad request with the expected error message
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -143,8 +155,8 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_TooHighRating() {
         // Create a sample restaurant with an invalid price
-        Restaurant restaurant = new Restaurant();
-        restaurant.setRestaurantName("New Restaurant");
+        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
@@ -154,10 +166,10 @@ class AddRestaurantControllerTest {
         menu.setRatings("10.1");// Invalid rating
         items.add(menu);
         menuList.setItems(items);
-        restaurant.setMenuList(menuList);
+        restaurantRequest.setMenuList(menuList);
 
         // Call the controller method
-        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurant);
+        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurantRequest);
 
         // Verify that the response is a bad request with the expected error message
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -167,8 +179,8 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_NonNumericPrice() {
         // Create a sample restaurant with an invalid price
-        Restaurant restaurant = new Restaurant();
-        restaurant.setRestaurantName("New Restaurant");
+        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
@@ -178,10 +190,10 @@ class AddRestaurantControllerTest {
         menu.setRatings("8.5");
         items.add(menu);
         menuList.setItems(items);
-        restaurant.setMenuList(menuList);
+        restaurantRequest.setMenuList(menuList);
 
         // Call the controller method
-        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurant);
+        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurantRequest);
 
         // Verify that the response is a bad request with the expected error message
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -191,8 +203,8 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_TooLessPrice() {
         // Create a sample restaurant with an invalid price
-        Restaurant restaurant = new Restaurant();
-        restaurant.setRestaurantName("New Restaurant");
+        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
@@ -202,10 +214,10 @@ class AddRestaurantControllerTest {
         menu.setRatings("8.5");
         items.add(menu);
         menuList.setItems(items);
-        restaurant.setMenuList(menuList);
+        restaurantRequest.setMenuList(menuList);
 
         // Call the controller method
-        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurant);
+        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurantRequest);
 
         // Verify that the response is a bad request with the expected error message
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -215,8 +227,8 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_TooHighPrice() {
         // Create a sample restaurant with an invalid price
-        Restaurant restaurant = new Restaurant();
-        restaurant.setRestaurantName("New Restaurant");
+        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
@@ -226,10 +238,10 @@ class AddRestaurantControllerTest {
         menu.setRatings("8.5");
         items.add(menu);
         menuList.setItems(items);
-        restaurant.setMenuList(menuList);
+        restaurantRequest.setMenuList(menuList);
 
         // Call the controller method
-        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurant);
+        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurantRequest);
 
         // Verify that the response is a bad request with the expected error message
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -239,8 +251,8 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_InternalServerError() {
         // Create a sample restaurant
-        Restaurant restaurant = new Restaurant();
-        restaurant.setRestaurantName("Sample Restaurant");
+        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        restaurantRequest.setRestaurantName("Sample Restaurant");
 
         MenuList menuList = new MenuList();
         List<Menu> items = new ArrayList<>();
@@ -250,13 +262,13 @@ class AddRestaurantControllerTest {
         menu.setRatings("8.5");
         items.add(menu);
         menuList.setItems(items);
-        restaurant.setMenuList(menuList);
+        restaurantRequest.setMenuList(menuList);
 
         // Mock the restaurant repository's getRestaurantByName method to throw an exception
         when(restaurantRepository.getRestaurantByName("Sample Restaurant")).thenThrow(RuntimeException.class);
 
          // Call the controller method and assert the response
-        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurant);
+        ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurantRequest);
 
         // Verify that the restaurant repository's getRestaurantByName method was called
         verify(restaurantRepository, times(1)).getRestaurantByName("Sample Restaurant");
