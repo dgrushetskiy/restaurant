@@ -9,6 +9,7 @@
         <module>searchFood</module>
 		<module>discovery</module>
 		<module>apigateway</module>
+		<module>reviews</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>

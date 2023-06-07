@@ -43,9 +43,9 @@ public class SearchFoodQueryHandler {
         try {
             List<SearchResult> myList;
             if (searchQuery.getCriteria().equalsIgnoreCase("restaurantname")) {
-                myList = restaurantRepository.findItemsUnderRestaurant(searchQuery.getCriteriaValue());
+                myList = restaurantRepository.findItemsUnderRestaurant("restaurantname", searchQuery.getCriteriaValue(), null, null, 0, 10);
             } else if (searchQuery.getCriteria().equalsIgnoreCase("menuitem")) {
-                myList = restaurantRepository.findAllItemsbyName(searchQuery.getCriteriaValue());
+                myList = restaurantRepository.findAllItemsbyName("menuitem", searchQuery.getCriteriaValue(), null, null, 0, 10);
             } else {
                 return ResponseEntity.badRequest().body("Invalid search criteria");
             }

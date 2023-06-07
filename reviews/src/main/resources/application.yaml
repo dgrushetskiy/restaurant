@@ -1,0 +1,20 @@
+amazon:
+  dynamodb:
+    endpoint: http://localhost:8000
+  aws:
+    region: us-east-1
+    accesskey: dummyid
+    secretkey: dummypw
+server:
+  port: 9005
+spring:
+  application:
+    name: reviews
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    hostname: localhost

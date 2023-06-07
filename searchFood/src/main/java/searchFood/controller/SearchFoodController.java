@@ -74,14 +74,21 @@ public class SearchFoodController {
     @GetMapping("/{criteria}/{criteriaValue}")
     public ResponseEntity<Object> searchFood(
             @PathVariable String criteria,
-            @PathVariable String criteriaValue
+            @PathVariable String criteriaValue,
+            @RequestParam(value = "filter", required = false) String filter,
+            @RequestParam(value = "sort", required = false) String sort,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size
+
     ) {
         try {
             List<SearchResult> myList;
             if (criteria.equalsIgnoreCase("restaurantname")) {
-                myList = restaurantRepository.findItemsUnderRestaurant(criteriaValue);
+                myList = restaurantRepository.findItemsUnderRestaurant(criteria, criteriaValue, filter,
+                         sort, page, size);
             } else if (criteria.equalsIgnoreCase("menuitem")) {
-                myList = restaurantRepository.findAllItemsbyName(criteriaValue);
+                myList = restaurantRepository.findAllItemsbyName(criteria, criteriaValue, filter,
+                        sort, page, size);
             } else {
                 return ResponseEntity.badRequest().body("Invalid search criteria");
             }

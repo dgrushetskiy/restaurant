@@ -36,15 +36,15 @@ class SearchFoodControllerTest {
         String criteria = "restaurantname";
         String criteriaValue = "Restaurant1";
         List<SearchResult> searchResults = createSearchResults();
-        when(restaurantRepository.findItemsUnderRestaurant(criteriaValue)).thenReturn(searchResults);
+        when(restaurantRepository.findItemsUnderRestaurant("restaurantname", criteriaValue, null, null, 0, 10)).thenReturn(searchResults);
 
         // Act
-        ResponseEntity<Object> response = searchFoodController.searchFood(criteria, criteriaValue);
+        ResponseEntity<Object> response = searchFoodController.searchFood(criteria, criteriaValue, null, null, 0, 10);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(searchResults, response.getBody());
-        verify(restaurantRepository, times(1)).findItemsUnderRestaurant(criteriaValue);
+        verify(restaurantRepository, times(1)).findItemsUnderRestaurant(criteria, criteriaValue, null, null, 0, 10);
     }
 
     @Test
@@ -53,15 +53,15 @@ class SearchFoodControllerTest {
         String criteria = "menuitem";
         String criteriaValue = "Pizza";
         List<SearchResult> searchResults = createSearchResults();
-        when(restaurantRepository.findAllItemsbyName(criteriaValue)).thenReturn(searchResults);
+        when(restaurantRepository.findAllItemsbyName("menuitem",criteriaValue,null,null,0, 10)).thenReturn(searchResults);
 
         // Act
-        ResponseEntity<Object> response = searchFoodController.searchFood(criteria, criteriaValue);
+        ResponseEntity<Object> response = searchFoodController.searchFood(criteria, criteriaValue, null,null,0, 10);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(searchResults, response.getBody());
-        verify(restaurantRepository, times(1)).findAllItemsbyName(criteriaValue);
+        verify(restaurantRepository, times(1)).findAllItemsbyName("menuitem",criteriaValue,null, null, 0, 10);
     }
 
     @Test
@@ -71,13 +71,13 @@ class SearchFoodControllerTest {
         String criteriaValue = "value";
 
         // Act
-        ResponseEntity<Object> response = searchFoodController.searchFood(criteria, criteriaValue);
+        ResponseEntity<Object> response = searchFoodController.searchFood(criteria, criteriaValue, null, null, 0, 10);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Invalid search criteria", response.getBody());
-        verify(restaurantRepository, never()).findItemsUnderRestaurant(anyString());
-        verify(restaurantRepository, never()).findAllItemsbyName(anyString());
+        verify(restaurantRepository, never()).findItemsUnderRestaurant("", anyString(), null, null, 0, 10);
+        verify(restaurantRepository, never()).findAllItemsbyName("", anyString(), null, null, 0, 10);
     }
 
     // Add more test cases to cover other scenarios

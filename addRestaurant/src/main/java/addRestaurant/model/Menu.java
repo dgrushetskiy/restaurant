@@ -34,7 +34,7 @@ public class Menu {
     private String itemName;
 
     @DynamoDBAttribute
-    private String Ratings;
+    private String ratings;
 
     @DynamoDBAttribute
     private String price;
@@ -48,11 +48,11 @@ public class Menu {
     }
 
     public String getRatings() {
-        return Ratings;
+        return ratings;
     }
 
     public void setRatings(String ratings) {
-        Ratings = ratings;
+        this.ratings = ratings;
     }
 
     public String getPrice() {
