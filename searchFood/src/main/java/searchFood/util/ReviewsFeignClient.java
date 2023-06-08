@@ -18,9 +18,10 @@ public interface ReviewsFeignClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/restaurantitem", consumes = "application/json")
     @Headers("Content-Type: application/json")
-    ResponseEntity<Object> fetchReviews(@RequestBody ReviewRequest request) ;
+    List<ReviewResponseItem> fetchReviews(@RequestBody ReviewRequest request) ;
+    //ResponseEntity<Object> fetchReviews(@RequestBody ReviewRequest request) ;
 
-    //List<ReviewResponseItem> fetchReviews(@RequestBody ReviewRequest request) ;
+
 
     @RequestMapping(method = RequestMethod.GET, value = "/test", consumes = "application/json")
     @Headers("Content-Type: application/json")

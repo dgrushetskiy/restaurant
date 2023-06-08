@@ -98,9 +98,9 @@ public class RestaurantRepository {
             ReviewRequest reviewRequest  = new ReviewRequest();
             reviewRequest.setItems(reviewRequestItems);
             try{
-                ResponseEntity<Object> response = feignClient.fetchReviews(reviewRequest);
-                List<ReviewResponseItem> fetchedReviews = (List<ReviewResponseItem>) response.getBody();
-
+                //ResponseEntity<Object> response = feignClient.fetchReviews(reviewRequest);
+                //List<ReviewResponseItem> fetchedReviews = (List<ReviewResponseItem>) response.getBody();
+                List<ReviewResponseItem> fetchedReviews = feignClient.fetchReviews(reviewRequest);
                 //LOGGER.info(feignClient.fetchTestReviews());
 
                 for (SearchResult result : results) {
@@ -108,6 +108,8 @@ public class RestaurantRepository {
                         if (result.getItemName().equals(review.getItemName()) && result.getName().equals(review.getRestaurantName())) {
                             result.setRatings(review.getRatings());
                             break; // Break the inner loop once a match is found
+                        }else {
+                            LOGGER.info("result.getItemName() = " + result.getItemName() + ", review.getItemName() = " + review.getItemName() + ", result.getName() = " + result.getName() + ", review.getRestaurantName() = " + review.getRestaurantName());
                         }
                     }
                 }

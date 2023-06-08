@@ -36,15 +36,16 @@ public class ReviewRepository {
      * @param request The name of the item to search.
      * @return The list of search results.
      */
-    public List<ReviewResponse> findItemReviews(ReviewRequest request) {
+    //public List<ReviewResponse> findItemReviews(ReviewRequest request) {
+    public List<ResponseItem> findItemReviews(ReviewRequest request) {
 
         LOGGER.info("Beginning findItemReviews");
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         List<ItemReview> reviewList = dynamoDBMapper.scan(ItemReview.class, scanExpression);
 
-        List<ReviewResponse> results = new ArrayList<>();
-
+        //List<ReviewResponse> results = new ArrayList<>();
+        List<ResponseItem> results = new ArrayList<>();
 
         List<ItemReview> filteredReviews = reviewList.stream()
                 .filter(review -> request.getItems().stream()
@@ -62,10 +63,11 @@ public class ReviewRepository {
                         responseItem.setItemName(review.getItemName());
                         responseItem.setRatings(review.getRatings());
 
-                        ReviewResponse reviewResponse = new ReviewResponse();
-                        reviewResponse.setItems(List.of(responseItem));
+                        //ReviewResponse reviewResponse = new ReviewResponse();
+                        //reviewResponse.setItems(List.of(responseItem));
 
-                        return reviewResponse;
+                        //return reviewResponse;
+                        return responseItem;
                     })
                     .collect(Collectors.toList());
             if (results.size() == 0) {

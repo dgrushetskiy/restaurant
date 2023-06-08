@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reviews.model.ResponseItem;
 import reviews.model.ReviewRequest;
 import reviews.model.ReviewResponse;
 import reviews.repository.ReviewRepository;
@@ -24,17 +25,22 @@ public class ReviewController {
     private ReviewRepository reviewRepository;
 
     @PostMapping("/restaurantitem")
-    public ResponseEntity<Object> findReviews(@RequestBody ReviewRequest request) {
+    public List<ResponseItem> findReviews(@RequestBody ReviewRequest request) {
+    //public ResponseEntity<Object> findReviews(@RequestBody ReviewRequest request) {
         LOGGER.info("Start findReviews");
 
         try {
-            List<ReviewResponse> myList = reviewRepository.findItemReviews(request);
-            LOGGER.info("Request processed successfully.");
-            return ResponseEntity.ok(myList);
+            //List<ReviewResponse> myList = reviewRepository.findItemReviews(request);
+            List<ResponseItem> myList = reviewRepository.findItemReviews(request);
+
+            //LOGGER.info("Request processed successfully.");
+            //return ResponseEntity.ok(myList);
+            return myList;
         }catch (Exception e) {
             LOGGER.error("An error occurred while processing the search request.", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the search request.");
+            //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the search request.");
         }
+        return null;
     }
 
     @GetMapping("/test")
