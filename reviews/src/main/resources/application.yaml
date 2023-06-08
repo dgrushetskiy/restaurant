@@ -9,7 +9,7 @@ server:
   port: 9005
 spring:
   application:
-    name: reviews
+    name: review
 eureka:
   client:
     service-url:

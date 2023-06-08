@@ -8,10 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import searchFood.model.Menu;
-import searchFood.model.MenuList;
-import searchFood.model.Restaurant;
-import searchFood.model.SearchResult;
+import searchFood.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,8 +96,8 @@ class RestaurantRepositoryTest {
 
         // Verify that the search results contain the expected menu item
         assertEquals(1, searchResults.size());
-        SearchResult searchResult = searchResults.get(0);
-        assertEquals("Test Restaurant", searchResult.getRestaurantName());
+        RestaurantSearchResult searchResult = (RestaurantSearchResult) searchResults.get(0);
+        assertEquals("Test Restaurant", searchResult.getName());
         assertEquals("123 Main St", searchResult.getAddress());
         assertEquals("Item 1", searchResult.getItemName());
         assertEquals("4.5", searchResult.getRatings());

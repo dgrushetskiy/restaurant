@@ -3,6 +3,7 @@ package searchFood.repository;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import searchFood.model.*;
 
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import searchFood.util.ReviewsFeignClient;
 
 @Repository
 public class RestaurantRepository {
@@ -21,6 +23,9 @@ public class RestaurantRepository {
 
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
+
+    @Autowired
+    private ReviewsFeignClient feignClient;
 
     public DynamoDBMapper getDynamoDBMapper() {
         return dynamoDBMapper;
@@ -81,6 +86,34 @@ public class RestaurantRepository {
                     })
                     .collect(Collectors.toList());
 
+            List<ReviewRequestItem> reviewRequestItems = new ArrayList<>();
+
+            for (SearchResult result : results) {
+                ReviewRequestItem reviewRequestItem = new ReviewRequestItem();
+                reviewRequestItem.setRestaurantName(result.getName());
+                reviewRequestItem.setItemName(result.getItemName());
+                reviewRequestItems.add(reviewRequestItem);
+            }
+
+            ReviewRequest reviewRequest  = new ReviewRequest();
+            reviewRequest.setItems(reviewRequestItems);
+            try{
+                ResponseEntity<Object> response = feignClient.fetchReviews(reviewRequest);
+                List<ReviewResponseItem> fetchedReviews = (List<ReviewResponseItem>) response.getBody();
+
+                //LOGGER.info(feignClient.fetchTestReviews());
+
+                for (SearchResult result : results) {
+                    for (ReviewResponseItem review : fetchedReviews) {
+                        if (result.getItemName().equals(review.getItemName()) && result.getName().equals(review.getRestaurantName())) {
+                            result.setRatings(review.getRatings());
+                            break; // Break the inner loop once a match is found
+                        }
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             if (filter != null && !filter.isEmpty()) {
                 results = results.stream()
                         .filter(result -> containsKeyword(result, filter))

@@ -4,7 +4,7 @@ public class RestaurantSearchResult extends SearchResult{
     private String name;
     private String address;
     private String itemName;
-    private String Ratings;
+    private String ratings;
     private String price;
 
     @Override
@@ -39,12 +39,12 @@ public class RestaurantSearchResult extends SearchResult{
 
     @Override
     public String getRatings() {
-        return Ratings;
+        return ratings;
     }
 
     @Override
     public void setRatings(String ratings) {
-        Ratings = ratings;
+        this.ratings = ratings;
     }
 
     @Override

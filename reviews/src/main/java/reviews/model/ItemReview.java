@@ -10,10 +10,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamoDBTable(tableName = "restaurant")
+@DynamoDBTable(tableName = "review")
 public class ItemReview {
 
     @DynamoDBHashKey
+    @DynamoDBAttribute
+    private String reviewId;
+
     @DynamoDBAttribute
     private String restaurantName;
 
@@ -25,9 +28,6 @@ public class ItemReview {
 
     @DynamoDBAttribute
     private String comment;
-
-    @DynamoDBAttribute
-    private String createdAt;
 
     public String getRestaurantName() {
         return restaurantName;
@@ -61,11 +61,5 @@ public class ItemReview {
         this.comment = comment;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
 }
