@@ -13,7 +13,7 @@ import searchFood.model.ReviewResponseItem;
 
 import java.util.List;
 
-@FeignClient(name = "review", url = "localhost:9005/review")
+@FeignClient(name = "review", url = "localhost:9005/review", fallback = ReviewsFallback.class)
 public interface ReviewsFeignClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/restaurantitem", consumes = "application/json")
