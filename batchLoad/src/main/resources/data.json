@@ -1,0 +1,213 @@
+[
+  {"restaurantName": "Test-1",
+    "address": "Address-1",
+    "createdAt": "2023-06-01T19:19:37.371303500",
+    "updatedAt": "2023-06-01T19:19:37.371303500",
+    "menuList":{
+      "items":
+        [
+          {
+            "itemName": "Naan",
+            "ratings": "8",
+            "price": "110"
+          },
+          {
+            "itemName": "Pizza",
+            "ratings": "8",
+            "price": "110"
+          }
+          ]
+
+    }
+  },
+  {"restaurantName": "Test-2",
+    "address": "Address-1",
+    "createdAt": "2023-06-01T19:19:37.371303500",
+    "updatedAt": "2023-06-01T19:19:37.371303500",
+    "menuList":{
+      "items":
+      [
+        {
+          "itemName": "Naan",
+          "ratings": "8",
+          "price": "110"
+        },
+        {
+          "itemName": "Pizza",
+          "ratings": "8",
+          "price": "110"
+        }
+      ]
+
+    }
+  },
+  {"restaurantName": "Test-3",
+    "address": "Address-1",
+    "createdAt": "2023-06-01T19:19:37.371303500",
+    "updatedAt": "2023-06-01T19:19:37.371303500",
+    "menuList":{
+      "items":
+      [
+        {
+          "itemName": "Naan",
+          "ratings": "8",
+          "price": "110"
+        },
+        {
+          "itemName": "Pizza",
+          "ratings": "8",
+          "price": "110"
+        }
+      ]
+
+    }
+  },
+  {"restaurantName": "Test-4",
+    "address": "Address-1",
+    "createdAt": "2023-06-01T19:19:37.371303500",
+    "updatedAt": "2023-06-01T19:19:37.371303500",
+    "menuList":{
+      "items":
+      [
+        {
+          "itemName": "Naan",
+          "ratings": "8",
+          "price": "110"
+        },
+        {
+          "itemName": "Pizza",
+          "ratings": "8",
+          "price": "110"
+        }
+      ]
+
+    }
+  },
+  {"restaurantName": "Test-5",
+    "address": "Address-1",
+    "createdAt": "2023-06-01T19:19:37.371303500",
+    "updatedAt": "2023-06-01T19:19:37.371303500",
+    "menuList":{
+      "items":
+      [
+        {
+          "itemName": "Naan",
+          "ratings": "8",
+          "price": "110"
+        },
+        {
+          "itemName": "Pizza",
+          "ratings": "8",
+          "price": "110"
+        }
+      ]
+
+    }
+  },
+  {"restaurantName": "Test-6",
+    "address": "Address-1",
+    "createdAt": "2023-06-01T19:19:37.371303500",
+    "updatedAt": "2023-06-01T19:19:37.371303500",
+    "menuList":{
+      "items":
+      [
+        {
+          "itemName": "Naan",
+          "ratings": "8",
+          "price": "110"
+        },
+        {
+          "itemName": "Pizza",
+          "ratings": "8",
+          "price": "110"
+        }
+      ]
+
+    }
+  },
+  {"restaurantName": "Test-7",
+    "address": "Address-1",
+    "createdAt": "2023-06-01T19:19:37.371303500",
+    "updatedAt": "2023-06-01T19:19:37.371303500",
+    "menuList":{
+      "items":
+      [
+        {
+          "itemName": "Naan",
+          "ratings": "8",
+          "price": "110"
+        },
+        {
+          "itemName": "Pizza",
+          "ratings": "8",
+          "price": "110"
+        }
+      ]
+
+    }
+  },
+  {"restaurantName": "Test-8",
+    "address": "Address-1",
+    "createdAt": "2023-06-01T19:19:37.371303500",
+    "updatedAt": "2023-06-01T19:19:37.371303500",
+    "menuList":{
+      "items":
+      [
+        {
+          "itemName": "Naan",
+          "ratings": "8",
+          "price": "110"
+        },
+        {
+          "itemName": "Pizza",
+          "ratings": "8",
+          "price": "110"
+        }
+      ]
+
+    }
+  },
+  {"restaurantName": "Test-9",
+    "address": "Address-1",
+    "createdAt": "2023-06-01T19:19:37.371303500",
+    "updatedAt": "2023-06-01T19:19:37.371303500",
+    "menuList":{
+      "items":
+      [
+        {
+          "itemName": "Naan",
+          "ratings": "8",
+          "price": "110"
+        },
+        {
+          "itemName": "Pizza",
+          "ratings": "8",
+          "price": "110"
+        }
+      ]
+
+    }
+  },
+  {"restaurantName": "Test-10",
+    "address": "Address-1",
+    "createdAt": "2023-06-01T19:19:37.371303500",
+    "updatedAt": "2023-06-01T19:19:37.371303500",
+    "menuList":{
+      "items":
+      [
+        {
+          "itemName": "Naan",
+          "ratings": "8",
+          "price": "110"
+        },
+        {
+          "itemName": "Pizza",
+          "ratings": "8",
+          "price": "110"
+        }
+      ]
+
+    }
+  }
+
+]

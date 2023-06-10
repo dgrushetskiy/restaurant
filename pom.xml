@@ -10,6 +10,7 @@
 		<module>discovery</module>
 		<module>apigateway</module>
 		<module>reviews</module>
+		<module>batchLoad</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
