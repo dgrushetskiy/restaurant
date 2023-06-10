@@ -24,14 +24,12 @@ import java.util.List;
 @SpringBootApplication
 public class BatchLoad implements CommandLineRunner {
 
-    @Autowired
-    JobLauncher jobLauncher;
-
-    @Autowired
-    Job job;
-
 //    @Autowired
-//    RestaurantRepository restaurantRepository;
+//    JobLauncher jobLauncher;
+//
+//    @Autowired
+//    Job job;
+
 
     public static void main(String[] args) {
         SpringApplication.run(BatchLoad.class, args);

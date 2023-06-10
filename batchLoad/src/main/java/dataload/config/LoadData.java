@@ -18,19 +18,19 @@ import java.io.InputStream;
 import java.util.List;
 
 @Component
-public class MyTaskOne implements Tasklet {
+public class LoadData implements Tasklet {
 
 
     //@Autowired
     private RestaurantRepository restaurantRepository;
 
-    public MyTaskOne(RestaurantRepository restaurantRepository) {
+    public LoadData(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
     }
 
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception
     {
-        System.out.println("MyTaskOne start..");
+        System.out.println("LoadData start..");
         //RestaurantRepository restaurantRepository =  new RestaurantRepository();
         //Restaurant restaurant = new Restaurant();
         ObjectMapper mapper = new ObjectMapper();
@@ -39,11 +39,11 @@ public class MyTaskOne implements Tasklet {
         try {
             List<Restaurant> restaurants = mapper.readValue(inputStream,typeReference);
 
-            for (Restaurant restaurant : restaurants) {
-                restaurantRepository.saveRestaurant(restaurant);
-            }
+//            for (Restaurant restaurant : restaurants) {
+//                restaurantRepository.saveRestaurant(restaurant);
+//            }
 
-            //restaurants.stream().forEach(restaurant -> restaurantRepository.saveRestaurant(restaurant));
+            restaurants.stream().forEach(restaurant -> restaurantRepository.saveRestaurant(restaurant));
             //restaurants.stream().forEach(restaurant -> System.out.println(restaurant.getRestaurantName()));
             //restaurants.stream().forEach(restaurant -> System.out.println(restaurant.toString()));
 
@@ -52,7 +52,7 @@ public class MyTaskOne implements Tasklet {
             System.out.println("Unable to save data: " + e.getMessage());
         }
 
-        System.out.println("MyTaskOne done..");
+        System.out.println("LoadData done..");
         return RepeatStatus.FINISHED;
     }
 }
