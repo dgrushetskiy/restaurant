@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RestaurantRequest {
+public class Command {
 
     private String restaurantName;
     private String address;

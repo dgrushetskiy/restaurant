@@ -3,7 +3,7 @@ package addRestaurant.controller;
 import addRestaurant.model.Menu;
 import addRestaurant.model.MenuList;
 import addRestaurant.model.Restaurant;
-import addRestaurant.model.RestaurantRequest;
+import addRestaurant.model.Command;
 import addRestaurant.repository.RestaurantRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ class AddRestaurantControllerTest {
     @Test
     void testAddRestaurant_WithValidRestaurant_ReturnsSuccessResponse() {
         // Arrange
-        RestaurantRequest restaurantRequest = createValidRestaurant();
+        Command restaurantRequest = createValidRestaurant();
         when(restaurantRepository.getRestaurantByName(restaurantRequest.getRestaurantName())).thenReturn(null);
 
         Restaurant restaurant = new Restaurant();
@@ -58,7 +58,7 @@ class AddRestaurantControllerTest {
     @Test
     void testAddRestaurant_WithExistingRestaurant_ReturnsBadRequestResponse() {
         // Arrange
-        RestaurantRequest restaurantRequest = createValidRestaurant();
+        Command restaurantRequest = createValidRestaurant();
         Restaurant restaurant = new Restaurant();
         when(restaurantRepository.getRestaurantByName(restaurantRequest.getRestaurantName())).thenReturn(restaurant);
 
@@ -77,8 +77,8 @@ class AddRestaurantControllerTest {
         verify(restaurantRepository, never()).saveRestaurant(restaurant);
     }
 
-    private RestaurantRequest createValidRestaurant() {
-        RestaurantRequest restaurant = new RestaurantRequest();
+    private Command createValidRestaurant() {
+        Command restaurant = new Command();
         restaurant.setRestaurantName("Restaurant A");
         restaurant.setAddress("123 Main St");
 
@@ -107,7 +107,7 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_NonNumericRating() {
         // Create a sample restaurant with an invalid price
-        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        Command restaurantRequest = new Command();
         restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
@@ -131,7 +131,7 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_TooLowRating() {
         // Create a sample restaurant with an invalid price
-        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        Command restaurantRequest = new Command();
         restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
@@ -155,7 +155,7 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_TooHighRating() {
         // Create a sample restaurant with an invalid price
-        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        Command restaurantRequest = new Command();
         restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
@@ -179,7 +179,7 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_NonNumericPrice() {
         // Create a sample restaurant with an invalid price
-        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        Command restaurantRequest = new Command();
         restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
@@ -203,7 +203,7 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_TooLessPrice() {
         // Create a sample restaurant with an invalid price
-        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        Command restaurantRequest = new Command();
         restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
@@ -227,7 +227,7 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_TooHighPrice() {
         // Create a sample restaurant with an invalid price
-        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        Command restaurantRequest = new Command();
         restaurantRequest.setRestaurantName("New Restaurant");
 
         MenuList menuList = new MenuList();
@@ -251,7 +251,7 @@ class AddRestaurantControllerTest {
     @Test
     void addRestaurant_InternalServerError() {
         // Create a sample restaurant
-        RestaurantRequest restaurantRequest = new RestaurantRequest();
+        Command restaurantRequest = new Command();
         restaurantRequest.setRestaurantName("Sample Restaurant");
 
         MenuList menuList = new MenuList();

@@ -18,3 +18,12 @@ eureka:
     register-with-eureka: true
   instance:
     hostname: localhost
+rabbitmq:
+  exchange:
+    name: restaurant_exchange
+  queue:
+    json:
+      name: restaurant_json
+  routing:
+    json:
+      key: restaurant_routing_json_key

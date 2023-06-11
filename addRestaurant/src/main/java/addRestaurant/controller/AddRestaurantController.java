@@ -3,9 +3,16 @@ package addRestaurant.controller;
 import addRestaurant.model.Menu;
 import addRestaurant.model.MenuList;
 import addRestaurant.model.Restaurant;
-import addRestaurant.model.RestaurantRequest;
+import addRestaurant.model.Command;
 import addRestaurant.repository.RestaurantRepository;
+import addRestaurant.service.CommandHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +33,25 @@ public class AddRestaurantController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AddRestaurantController.class);
 
     @Autowired
+    CommandHandler commandHandler;
+
+    @Value("${rabbitmq.exchange.name}")
+    private String exchange;
+
+    @Value("${rabbitmq.routing.json.key}")
+    private String routingJsonKey;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
     private RestaurantRepository restaurantRepository;
 
+    private final RabbitTemplate rabbitTemplate;
+
+    public AddRestaurantController(final RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
     /**
      * Adds a new restaurant with menu details.
      *
@@ -35,7 +59,7 @@ public class AddRestaurantController {
      * @return ResponseEntity with success message if the restaurant is added successfully, or error message if validation or database error occurs.
      */
     @PostMapping("/add-restaurant")
-    public ResponseEntity<String> addRestaurant(@RequestBody RestaurantRequest restaurantRequest) {
+    public ResponseEntity<String> addRestaurant(@RequestBody Command restaurantRequest) {
         try {
             // Check if the restaurant already exists
             Restaurant existingRestaurant = restaurantRepository.getRestaurantByName(restaurantRequest.getRestaurantName());
@@ -87,13 +111,25 @@ public class AddRestaurantController {
             }
 
             // Save the restaurant to the database
-            Restaurant restaurant = new Restaurant();
-            restaurant.setRestaurantName(restaurantRequest.getRestaurantName());
-            restaurant.setAddress(restaurantRequest.getAddress());
-            restaurant.setMenuList(restaurantRequest.getMenuList());
-            restaurant.setCreatedAt(String.valueOf(LocalDateTime.now()));
+//            Restaurant restaurant = new Restaurant();
+//            restaurant.setRestaurantName(restaurantRequest.getRestaurantName());
+//            restaurant.setAddress(restaurantRequest.getAddress());
+//            restaurant.setMenuList(restaurantRequest.getMenuList());
+//            restaurant.setCreatedAt(String.valueOf(LocalDateTime.now()));
+//
+//            restaurantRepository.saveRestaurant(restaurant);
 
-            restaurantRepository.saveRestaurant(restaurant);
+            //rabbitTemplate.convertAndSend(exchange, routingJsonKey, restaurantRequest);
+            //commandHandler.handleCommand(restaurantRequest);
+
+
+            String orderJson = objectMapper.writeValueAsString(restaurantRequest);
+            Message message = MessageBuilder
+                    .withBody(orderJson.getBytes())
+                    .setContentType(MessageProperties.CONTENT_TYPE_JSON)
+                    .build();
+            this.rabbitTemplate.convertAndSend("addrestaurant-command", message);
+
             LOGGER.info("Restaurant saved successfully: {}", restaurantRequest.getRestaurantName());
 
             return ResponseEntity.ok("Restaurant saved successfully");
