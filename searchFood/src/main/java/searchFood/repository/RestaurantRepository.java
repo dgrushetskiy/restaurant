@@ -3,7 +3,6 @@ package searchFood.repository;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import searchFood.model.*;
 
@@ -36,16 +35,16 @@ public class RestaurantRepository {
     }
 
     /**
-     * Saves a restaurant to the DynamoDB table.
+     * Saves a searchRestaurant to the DynamoDB table.
      *
-     * @param restaurant The restaurant object to be saved.
-     * @return The saved restaurant.
+     * @param searchRestaurant The searchRestaurant object to be saved.
+     * @return The saved searchRestaurant.
      */
-//    public Restaurant saveRestaurant(Restaurant restaurant) {
-//        dynamoDBMapper.save(restaurant);
-//        LOGGER.info("Saved restaurant: {}", restaurant.getRestaurantName());
-//        return restaurant;
-//    }
+    public SearchRestaurant saveRestaurant(SearchRestaurant searchRestaurant) {
+        dynamoDBMapper.save(searchRestaurant);
+        LOGGER.info("Saved searchRestaurant: {}", searchRestaurant.getRestaurantName());
+        return searchRestaurant;
+    }
 
     /**
      * Retrieves a restaurant by name from the DynamoDB table.
@@ -53,9 +52,9 @@ public class RestaurantRepository {
      * @param restaurantName The name of the restaurant to retrieve.
      * @return The retrieved restaurant or null if not found.
      */
-//    public Restaurant getRestaurantByName(String restaurantName) {
+//    public SearchRestaurant getRestaurantByName(String restaurantName) {
 //        LOGGER.info("Retrieving restaurant by name: {}", restaurantName);
-//        return dynamoDBMapper.load(Restaurant.class, restaurantName);
+//        return dynamoDBMapper.load(SearchRestaurant.class, restaurantName);
 //    }
 
     /**
@@ -69,16 +68,16 @@ public class RestaurantRepository {
                                                        int page,
                                                        int size) {
 
-        LOGGER.info("Finding items under restaurant: {}", restaurantName);
-        Restaurant restaurant = dynamoDBMapper.load(Restaurant.class, restaurantName);
-        if (restaurant != null) {
-            //return mapToSearchResult(restaurant);
-            List<SearchResult> results = restaurant.getMenuList().getItems().stream()
+        LOGGER.info("Finding items under searchRestaurant: {}", restaurantName);
+        SearchRestaurant searchRestaurant = dynamoDBMapper.load(SearchRestaurant.class, restaurantName);
+        if (searchRestaurant != null) {
+            //return mapToSearchResult(searchRestaurant);
+            List<SearchResult> results = searchRestaurant.getMenuList().getItems().stream()
                     .map(menu -> {
                         //RestaurantSearchResult searchItem = new RestaurantSearchResult();
-                        RestaurantSearchResult searchItem = (RestaurantSearchResult) SearchResultFactory.getSearchResult("Restaurant");
-                        searchItem.setName(restaurant.getRestaurantName());
-                        searchItem.setAddress(restaurant.getAddress());
+                        RestaurantSearchResult searchItem = (RestaurantSearchResult) SearchResultFactory.getSearchResult("SearchRestaurant");
+                        searchItem.setName(searchRestaurant.getRestaurantName());
+                        searchItem.setAddress(searchRestaurant.getAddress());
                         searchItem.setItemName(menu.getItemName());
                         searchItem.setRatings(menu.getRatings());
                         searchItem.setPrice(menu.getPrice());
@@ -135,7 +134,7 @@ public class RestaurantRepository {
 
 
         } else {
-            LOGGER.warn("Restaurant not found: {}", restaurantName);
+            LOGGER.warn("SearchRestaurant not found: {}", restaurantName);
             return new ArrayList<>();
         }
     }
@@ -182,7 +181,7 @@ public class RestaurantRepository {
      * @param restaurant The restaurant object.
      * @return The list of search results.
      */
-//    private List<SearchResult> mapToSearchResult(Restaurant restaurant) {
+//    private List<SearchResult> mapToSearchResult(SearchRestaurant restaurant) {
 //
 //                 List<SearchResult> results = restaurant.getMenuList().getItems().stream()
 //                .map(menu -> {
@@ -231,14 +230,14 @@ public class RestaurantRepository {
                                                  int size) {
         LOGGER.info("Finding items by name: {}", itemName);
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-        List<Restaurant> restaurantList = dynamoDBMapper.scan(Restaurant.class, scanExpression);
+        List<SearchRestaurant> searchRestaurantList = dynamoDBMapper.scan(SearchRestaurant.class, scanExpression);
         List<SearchResult> results = new ArrayList<>();
 
         try {
-            results = restaurantList.stream()
-                    .flatMap(restaurant -> restaurant.getMenuList().getItems().stream()
+            results = searchRestaurantList.stream()
+                    .flatMap(searchRestaurant -> searchRestaurant.getMenuList().getItems().stream()
                             .filter(menu -> menu.getItemName().equals(itemName))
-                            .map(menu -> mapToSearchResultByItem(menu, restaurant)))
+                            .map(menu -> mapToSearchResultByItem(menu, searchRestaurant)))
                     .collect(Collectors.toList());
             if (results.size() == 0) {
                 LOGGER.warn("Item not found: {}", itemName);
@@ -266,19 +265,19 @@ public class RestaurantRepository {
     }
 
     /**
-     * Maps a menu item and its associated restaurant to a search result.
+     * Maps a menu item and its associated searchRestaurant to a search result.
      *
      * @param menu       The menu item.
-     * @param restaurant The associated restaurant.
+     * @param searchRestaurant The associated searchRestaurant.
      * @return The search result.
      */
-    private SearchResult mapToSearchResultByItem(Menu menu, Restaurant restaurant) {
+    private SearchResult mapToSearchResultByItem(Menu menu, SearchRestaurant searchRestaurant) {
 
         //RestaurantSearchResult result = new RestaurantSearchResult();
-        RestaurantSearchResult result = (RestaurantSearchResult) SearchResultFactory.getSearchResult("Restaurant");
+        RestaurantSearchResult result = (RestaurantSearchResult) SearchResultFactory.getSearchResult("SearchRestaurant");
 
-        result.setName(restaurant.getRestaurantName());
-        result.setAddress(restaurant.getAddress());
+        result.setName(searchRestaurant.getRestaurantName());
+        result.setAddress(searchRestaurant.getAddress());
         result.setItemName(menu.getItemName());
         result.setRatings(menu.getRatings());
         result.setPrice(menu.getPrice());

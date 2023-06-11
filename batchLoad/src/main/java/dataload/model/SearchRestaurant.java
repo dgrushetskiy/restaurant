@@ -1,17 +1,17 @@
-package searchFood.model;
+package dataload.model;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamoDBTable(tableName = "restaurant")
-public class Restaurant {
+@DynamoDBTable(tableName = "searchrestaurant")
+public class SearchRestaurant {
 
     @DynamoDBHashKey
     @DynamoDBAttribute

@@ -39,7 +39,7 @@ class RestaurantTest {
         MenuList menuList = new MenuList(Arrays.asList(menu1, menu2, menu3));
 
         // Create an instance using the all-args constructor
-        Command restaurantRequest = new Command("Restaurant 1", "Address 1", menuList);
+        AddRestaurantCommand restaurantRequest = new AddRestaurantCommand("Restaurant 1", "Address 1", menuList);
 
         // Assert that the instance is not null
         assertNotNull(restaurantRequest);

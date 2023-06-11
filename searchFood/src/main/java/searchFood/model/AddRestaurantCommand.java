@@ -1,4 +1,4 @@
-package addRestaurant.model;
+package searchFood.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Command {
+public class AddRestaurantCommand {
 
     private String restaurantName;
     private String address;

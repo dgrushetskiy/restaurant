@@ -7,7 +7,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class RestaurantTest {
+class SearchRestaurantTest {
 
     @Test
     void testGettersAndSetters() {
@@ -17,15 +17,15 @@ class RestaurantTest {
         MenuList menuList = new MenuList();
 
         // Act
-        Restaurant restaurant = new Restaurant();
-        restaurant.setRestaurantName(restaurantName);
-        restaurant.setAddress(address);
-        restaurant.setMenuList(menuList);
+        SearchRestaurant searchRestaurant = new SearchRestaurant();
+        searchRestaurant.setRestaurantName(restaurantName);
+        searchRestaurant.setAddress(address);
+        searchRestaurant.setMenuList(menuList);
 
         // Assert
-        assertEquals(restaurantName, restaurant.getRestaurantName());
-        assertEquals(address, restaurant.getAddress());
-        assertEquals(menuList, restaurant.getMenuList());
+        assertEquals(restaurantName, searchRestaurant.getRestaurantName());
+        assertEquals(address, searchRestaurant.getAddress());
+        assertEquals(menuList, searchRestaurant.getMenuList());
     }
 
     @Test
@@ -39,13 +39,13 @@ class RestaurantTest {
         MenuList menuList = new MenuList(Arrays.asList(menu1, menu2, menu3));
 
         // Create an instance using the all-args constructor
-        RestaurantRequest restaurantRequest = new RestaurantRequest("Restaurant 1", "Address 1", menuList);
+        RestaurantRequest restaurantRequest = new RestaurantRequest("SearchRestaurant 1", "Address 1", menuList);
 
         // Assert that the instance is not null
         assertNotNull(restaurantRequest);
 
         // Assert that the restaurant name is set correctly
-        assertEquals("Restaurant 1", restaurantRequest.getRestaurantName());
+        assertEquals("SearchRestaurant 1", restaurantRequest.getRestaurantName());
 
         // Assert that the address is set correctly
         assertEquals("Address 1", restaurantRequest.getAddress());

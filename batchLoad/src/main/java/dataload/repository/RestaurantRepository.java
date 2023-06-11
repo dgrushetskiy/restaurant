@@ -1,26 +1,43 @@
 package dataload.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+//import dataload.model.AddRestaurantCommand;
 import dataload.model.Restaurant;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import dataload.model.SearchRestaurant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
 
 @Repository
 public class RestaurantRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RestaurantRepository.class);
 
-    public RestaurantRepository() {
+    public RestaurantRepository(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
         LOGGER.info("RestaurantRepository Created");
     }
 
 
+    private final RabbitTemplate rabbitTemplate;
+
+    //public RestaurantRepository(final RabbitTemplate rabbitTemplate) {
+    //    this.rabbitTemplate = rabbitTemplate;
+    //}
 
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
+    //@Autowired
+    //private ObjectMapper objectMapper;
     /**
      * Saves a restaurant in the repository.
      *
@@ -30,10 +47,36 @@ public class RestaurantRepository {
     public Restaurant saveRestaurant(Restaurant restaurant) {
         try {
             dynamoDBMapper.save(restaurant);
+
+            //SearchRestaurant searchRestaurant = restaurant;
+
             LOGGER.info("Restaurant saved successfully: {}", restaurant.getRestaurantName());
+
+            SearchRestaurant searchRestaurant = new SearchRestaurant();
+            searchRestaurant.setRestaurantName(restaurant.getRestaurantName());
+            searchRestaurant.setAddress(restaurant.getAddress());
+            searchRestaurant.setMenuList(restaurant.getMenuList());
+            searchRestaurant.setCreatedAt(restaurant.getCreatedAt());
+            searchRestaurant.setUpdatedAt(restaurant.getUpdatedAt());
+            dynamoDBMapper.save(searchRestaurant);
+
+            //*******DO NOT DELETE***********
+//            AddRestaurantCommand addRestaurantCommand = new AddRestaurantCommand();
+//            addRestaurantCommand.setRestaurantName(restaurant.getRestaurantName());
+//            addRestaurantCommand.setAddress(restaurant.getAddress());
+//            addRestaurantCommand.setMenuList(restaurant.getMenuList());
+//
+//            String restaurantJson = objectMapper.writeValueAsString(addRestaurantCommand);
+//            Message message = MessageBuilder
+//                    .withBody(restaurantJson.getBytes())
+//                    .setContentType(MessageProperties.CONTENT_TYPE_JSON)
+//                    .build();
+//            this.rabbitTemplate.convertAndSend("addrestaurant-command", message);
+
+
         } catch (Exception e) {
             LOGGER.error("Failed to save restaurant: {}", restaurant.getRestaurantName(), e);
-            throw e; // Rethrow the exception to be handled by the caller
+            //throw e; // Rethrow the exception to be handled by the caller
         }
         return restaurant;
     }

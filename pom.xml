@@ -19,10 +19,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.food</groupId>
-	<artifactId>restaurant</artifactId>
+	<artifactId>searchRestaurant</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>restaurant</name>
+	<name>searchRestaurant</name>
 	<description>Demo project for Food Delivery</description>
 	<properties>
 		<java.version>11</java.version>

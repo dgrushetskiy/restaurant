@@ -1,8 +1,6 @@
 package searchFood.repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,9 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
-class RestaurantRepositoryTest {
+class SearchRestaurantRepositoryTest {
 
     @Mock
     private DynamoDBMapper dynamoDBMapper;
@@ -33,13 +30,13 @@ class RestaurantRepositoryTest {
 
 //    @Test
 //    void testSaveRestaurant() {
-//        // Create a Restaurant object
-//        Restaurant restaurant = new Restaurant();
-//        restaurant.setRestaurantName("Test Restaurant");
+//        // Create a SearchRestaurant object
+//        SearchRestaurant restaurant = new SearchRestaurant();
+//        restaurant.setRestaurantName("Test SearchRestaurant");
 //        restaurant.setAddress("123 Main St");
 //
 //        // Perform the save operation
-//        Restaurant savedRestaurant = restaurantRepository.saveRestaurant(restaurant);
+//        SearchRestaurant savedRestaurant = restaurantRepository.saveRestaurant(restaurant);
 //
 //        // Verify that the save method of DynamoDBMapper is called once
 //        verify(dynamoDBMapper, times(1)).save(restaurant);
@@ -50,19 +47,19 @@ class RestaurantRepositoryTest {
 
 //    @Test
 //    void testGetRestaurantByName() {
-//        // Create a mock Restaurant object
-//        Restaurant mockRestaurant = new Restaurant();
-//        mockRestaurant.setRestaurantName("Test Restaurant");
+//        // Create a mock SearchRestaurant object
+//        SearchRestaurant mockRestaurant = new SearchRestaurant();
+//        mockRestaurant.setRestaurantName("Test SearchRestaurant");
 //        mockRestaurant.setAddress("123 Main St");
 //
 //        // Specify the behavior of DynamoDBMapper's load method
-//        when(dynamoDBMapper.load(Restaurant.class, "Test Restaurant")).thenReturn(mockRestaurant);
+//        when(dynamoDBMapper.load(SearchRestaurant.class, "Test SearchRestaurant")).thenReturn(mockRestaurant);
 //
 //        // Perform the get operation
-//        Restaurant retrievedRestaurant = restaurantRepository.getRestaurantByName("Test Restaurant");
+//        SearchRestaurant retrievedRestaurant = restaurantRepository.getRestaurantByName("Test SearchRestaurant");
 //
 //        // Verify that the load method of DynamoDBMapper is called once
-//        verify(dynamoDBMapper, times(1)).load(Restaurant.class, "Test Restaurant");
+//        verify(dynamoDBMapper, times(1)).load(SearchRestaurant.class, "Test SearchRestaurant");
 //
 //        // Verify that the retrieved restaurant is the same as the mock restaurant
 //        assertEquals(mockRestaurant, retrievedRestaurant);
@@ -70,10 +67,10 @@ class RestaurantRepositoryTest {
 
     @Test
     void testFindItemsUnderRestaurant() {
-        // Create a mock Restaurant object with a menu
-        Restaurant mockRestaurant = new Restaurant();
-        mockRestaurant.setRestaurantName("Test Restaurant");
-        mockRestaurant.setAddress("123 Main St");
+        // Create a mock SearchRestaurant object with a menu
+        SearchRestaurant mockSearchRestaurant = new SearchRestaurant();
+        mockSearchRestaurant.setRestaurantName("Test SearchRestaurant");
+        mockSearchRestaurant.setAddress("123 Main St");
 
         MenuList menuList = new MenuList();
         List<Menu> menuItems = new ArrayList<>();
@@ -83,21 +80,21 @@ class RestaurantRepositoryTest {
         menu1.setPrice("$10.99");
         menuItems.add(menu1);
         menuList.setItems(menuItems);
-        mockRestaurant.setMenuList(menuList);
+        mockSearchRestaurant.setMenuList(menuList);
 
         // Specify the behavior of getRestaurantByName method
-        //when(restaurantRepository.getRestaurantByName("Test Restaurant")).thenReturn(mockRestaurant);
+        //when(restaurantRepository.getRestaurantByName("Test SearchRestaurant")).thenReturn(mockSearchRestaurant);
 
         // Perform the findItemsUnderRestaurant operation
-        List<SearchResult> searchResults = restaurantRepository.findItemsUnderRestaurant("restaurantname", "Test Restaurant", null, null, 0, 10);
+        List<SearchResult> searchResults = restaurantRepository.findItemsUnderRestaurant("restaurantname", "Test SearchRestaurant", null, null, 0, 10);
 
         // Verify that the getRestaurantByName method is called once
-        //verify(restaurantRepository, times(1)).getRestaurantByName("Test Restaurant");
+        //verify(restaurantRepository, times(1)).getRestaurantByName("Test SearchRestaurant");
 
         // Verify that the search results contain the expected menu item
         assertEquals(1, searchResults.size());
         RestaurantSearchResult searchResult = (RestaurantSearchResult) searchResults.get(0);
-        assertEquals("Test Restaurant", searchResult.getName());
+        assertEquals("Test SearchRestaurant", searchResult.getName());
         assertEquals("123 Main St", searchResult.getAddress());
         assertEquals("Item 1", searchResult.getItemName());
         assertEquals("4.5", searchResult.getRatings());
@@ -106,9 +103,9 @@ class RestaurantRepositoryTest {
 
 //    @Test
 //    void testFindAllItemsByName() {
-//        // Create a mock Restaurant object with a menu
-//        Restaurant mockRestaurant1 = new Restaurant();
-//        mockRestaurant1.setRestaurantName("Restaurant 1");
+//        // Create a mock SearchRestaurant object with a menu
+//        SearchRestaurant mockRestaurant1 = new SearchRestaurant();
+//        mockRestaurant1.setRestaurantName("SearchRestaurant 1");
 //        mockRestaurant1.setAddress("123 Main St");
 //
 //        MenuList menuList1 = new MenuList();
@@ -121,8 +118,8 @@ class RestaurantRepositoryTest {
 //        menuList1.setItems(menuItems1);
 //        mockRestaurant1.setMenuList(menuList1);
 //
-//        Restaurant mockRestaurant2 = new Restaurant();
-//        mockRestaurant2.setRestaurantName("Restaurant 2");
+//        SearchRestaurant mockRestaurant2 = new SearchRestaurant();
+//        mockRestaurant2.setRestaurantName("SearchRestaurant 2");
 //        mockRestaurant2.setAddress("456 Elm St");
 //
 //        MenuList menuList2 = new MenuList();
@@ -136,23 +133,23 @@ class RestaurantRepositoryTest {
 //        mockRestaurant2.setMenuList(menuList2);
 //
 //        // Create a list of mock restaurants
-//        List<Restaurant> mockRestaurantList = new ArrayList<>();
+//        List<SearchRestaurant> mockRestaurantList = new ArrayList<>();
 //        mockRestaurantList.add(mockRestaurant1);
 //        mockRestaurantList.add(mockRestaurant2);
 //
 //        // Specify the behavior of DynamoDBMapper's scan method
-//        when(dynamoDBMapper.scan(eq(Restaurant.class), any(DynamoDBScanExpression.class))).thenReturn( mockRestaurantList);
+//        when(dynamoDBMapper.scan(eq(SearchRestaurant.class), any(DynamoDBScanExpression.class))).thenReturn( mockRestaurantList);
 //
 //        // Perform the findAllItemsByName operation
 //        List<SearchResult> searchResults = restaurantRepository.findAllItemsbyName("Item 1");
 //
 //        // Verify that the scan method of DynamoDBMapper is called once
-//        verify(dynamoDBMapper, times(1)).scan(eq(Restaurant.class), any(DynamoDBScanExpression.class));
+//        verify(dynamoDBMapper, times(1)).scan(eq(SearchRestaurant.class), any(DynamoDBScanExpression.class));
 //
 //        // Verify that the search results contain the expected menu item
 //        assertEquals(1, searchResults.size());
 //        SearchResult searchResult = searchResults.get(0);
-//        assertEquals("Restaurant 1", searchResult.getRestaurantName());
+//        assertEquals("SearchRestaurant 1", searchResult.getRestaurantName());
 //        assertEquals("123 Main St", searchResult.getAddress());
 //        assertEquals("Item 1", searchResult.getItemName());
 //        assertEquals("4.5", searchResult.getRatings());

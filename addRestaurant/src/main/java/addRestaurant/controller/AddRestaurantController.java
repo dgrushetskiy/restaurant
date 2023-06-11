@@ -3,9 +3,9 @@ package addRestaurant.controller;
 import addRestaurant.model.Menu;
 import addRestaurant.model.MenuList;
 import addRestaurant.model.Restaurant;
-import addRestaurant.model.Command;
+import addRestaurant.model.AddRestaurantCommand;
 import addRestaurant.repository.RestaurantRepository;
-import addRestaurant.service.CommandHandler;
+import addRestaurant.service.AddRestaurantCommandHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
@@ -33,7 +33,7 @@ public class AddRestaurantController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AddRestaurantController.class);
 
     @Autowired
-    CommandHandler commandHandler;
+    AddRestaurantCommandHandler commandHandler;
 
     @Value("${rabbitmq.exchange.name}")
     private String exchange;
@@ -59,7 +59,7 @@ public class AddRestaurantController {
      * @return ResponseEntity with success message if the restaurant is added successfully, or error message if validation or database error occurs.
      */
     @PostMapping("/add-restaurant")
-    public ResponseEntity<String> addRestaurant(@RequestBody Command restaurantRequest) {
+    public ResponseEntity<String> addRestaurant(@RequestBody AddRestaurantCommand restaurantRequest) {
         try {
             // Check if the restaurant already exists
             Restaurant existingRestaurant = restaurantRepository.getRestaurantByName(restaurantRequest.getRestaurantName());
@@ -111,21 +111,21 @@ public class AddRestaurantController {
             }
 
             // Save the restaurant to the database
-//            Restaurant restaurant = new Restaurant();
-//            restaurant.setRestaurantName(restaurantRequest.getRestaurantName());
-//            restaurant.setAddress(restaurantRequest.getAddress());
-//            restaurant.setMenuList(restaurantRequest.getMenuList());
-//            restaurant.setCreatedAt(String.valueOf(LocalDateTime.now()));
-//
-//            restaurantRepository.saveRestaurant(restaurant);
+            Restaurant restaurant = new Restaurant();
+            restaurant.setRestaurantName(restaurantRequest.getRestaurantName());
+            restaurant.setAddress(restaurantRequest.getAddress());
+           restaurant.setMenuList(restaurantRequest.getMenuList());
+            restaurant.setCreatedAt(String.valueOf(LocalDateTime.now()));
+
+            restaurantRepository.saveRestaurant(restaurant);
 
             //rabbitTemplate.convertAndSend(exchange, routingJsonKey, restaurantRequest);
             //commandHandler.handleCommand(restaurantRequest);
 
 
-            String orderJson = objectMapper.writeValueAsString(restaurantRequest);
+            String restaurantJson = objectMapper.writeValueAsString(restaurantRequest);
             Message message = MessageBuilder
-                    .withBody(orderJson.getBytes())
+                    .withBody(restaurantJson.getBytes())
                     .setContentType(MessageProperties.CONTENT_TYPE_JSON)
                     .build();
             this.rabbitTemplate.convertAndSend("addrestaurant-command", message);
