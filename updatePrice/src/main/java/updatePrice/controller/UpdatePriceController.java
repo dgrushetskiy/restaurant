@@ -1,12 +1,14 @@
 package updatePrice.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import updatePrice.model.Menu;
-import updatePrice.model.MenuList;
-import updatePrice.model.PriceUpdateRequest;
-import updatePrice.model.Restaurant;
+import updatePrice.model.*;
 import updatePrice.repository.RestaurantRepository;
 
 import java.time.LocalDateTime;
@@ -25,6 +27,15 @@ public class UpdatePriceController {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private final RabbitTemplate rabbitTemplate;
+
+    public UpdatePriceController(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     /**
      * Updates the price for a specific menu item in a restaurant.
@@ -91,6 +102,22 @@ public class UpdatePriceController {
             existingRestaurant.setUpdatedAt(String.valueOf(LocalDateTime.now()));
             restaurantRepository.saveRestaurant(existingRestaurant);
             LOGGER.info("Price updated successfully for item: {} in restaurant: {}", menuItemName, restaurantName);
+
+            PriceUpdateCommand priceUpdateCommand = new PriceUpdateCommand();
+            priceUpdateCommand.setRestaurantName(existingRestaurant.getRestaurantName());
+            priceUpdateCommand.setAddress(existingRestaurant.getAddress());
+            priceUpdateCommand.setMenuList(existingRestaurant.getMenuList());
+            priceUpdateCommand.setUpdatedAt(existingRestaurant.getUpdatedAt());
+            priceUpdateCommand.setCreatedAt(existingRestaurant.getCreatedAt());
+
+
+            String restaurantJson = objectMapper.writeValueAsString(priceUpdateCommand);
+            Message message = MessageBuilder
+                    .withBody(restaurantJson.getBytes())
+                    .setContentType(MessageProperties.CONTENT_TYPE_JSON)
+                    .build();
+            this.rabbitTemplate.convertAndSend("priceupdate-command", message);
+
             return ResponseEntity.ok("Price updated successfully");
         } catch (Exception e) {
             LOGGER.error("Error occurred while updating price for item: {} in restaurant: {}", priceUpdateRequest.getMenuItemName(), restaurantName, e);
