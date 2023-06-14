@@ -21,12 +21,6 @@ public class AddRestaurantCommandHandler {
     @Autowired
     RestaurantRepository restaurantRepository;
 
-   // private final AmqpTemplate amqpTemplate;
-
-   // @Autowired
-    //public AddRestaurantCommandHandler(AmqpTemplate amqpTemplate) {
-    //    this.amqpTemplate = amqpTemplate;
-    //}
 
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {

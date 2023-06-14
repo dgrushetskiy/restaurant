@@ -5,7 +5,7 @@ import addRestaurant.model.MenuList;
 import addRestaurant.model.Restaurant;
 import addRestaurant.model.AddRestaurantCommand;
 import addRestaurant.repository.RestaurantRepository;
-import addRestaurant.service.AddRestaurantCommandHandler;
+//import addRestaurant.service.AddRestaurantCommandHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
@@ -32,8 +32,8 @@ public class AddRestaurantController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddRestaurantController.class);
 
-    @Autowired
-    AddRestaurantCommandHandler commandHandler;
+//    @Autowired
+//    AddRestaurantCommandHandler commandHandler;
 
     @Value("${rabbitmq.exchange.name}")
     private String exchange;

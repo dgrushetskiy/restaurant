@@ -15,11 +15,6 @@ public class RabbitConfig
         return QueueBuilder.durable(QUEUE_ORDERS).build();
     }
 
-//    @Bean
-//    Queue deadLetterQueue() {
-//        return QueueBuilder.durable(QUEUE_DEAD_ORDERS).build();
-//    }
-
     @Bean
     Exchange ordersExchange() {
         return ExchangeBuilder.topicExchange(EXCHANGE_ORDERS).build();

@@ -39,13 +39,7 @@ public class LoadData implements Tasklet {
         try {
             List<Restaurant> restaurants = mapper.readValue(inputStream,typeReference);
 
-//            for (Restaurant restaurant : restaurants) {
-//                restaurantRepository.saveRestaurant(restaurant);
-//            }
-
             restaurants.stream().forEach(restaurant -> restaurantRepository.saveRestaurant(restaurant));
-            //restaurants.stream().forEach(restaurant -> System.out.println(restaurant.getRestaurantName()));
-            //restaurants.stream().forEach(restaurant -> System.out.println(restaurant.toString()));
 
             System.out.println("Data Saved!");
         } catch (IOException e){

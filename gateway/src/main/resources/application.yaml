@@ -35,8 +35,6 @@ spring:
             - RoleAuth=CUSTOMER
           predicates:
             - Path=/food/api/v1/user/restaurantname/** , /food/api/v1/user/menuitem/**
-#  main:
-#    allow-bean-definition-overriding: true
 eureka:
   client:
     service-url:

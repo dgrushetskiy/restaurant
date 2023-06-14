@@ -1,7 +1,6 @@
 package dataload.repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-//import dataload.model.AddRestaurantCommand;
+
 import dataload.model.Restaurant;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import dataload.model.SearchRestaurant;
@@ -29,15 +28,10 @@ public class RestaurantRepository {
 
     private final RabbitTemplate rabbitTemplate;
 
-    //public RestaurantRepository(final RabbitTemplate rabbitTemplate) {
-    //    this.rabbitTemplate = rabbitTemplate;
-    //}
 
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
-    //@Autowired
-    //private ObjectMapper objectMapper;
     /**
      * Saves a restaurant in the repository.
      *
@@ -59,19 +53,6 @@ public class RestaurantRepository {
             searchRestaurant.setCreatedAt(restaurant.getCreatedAt());
             searchRestaurant.setUpdatedAt(restaurant.getUpdatedAt());
             dynamoDBMapper.save(searchRestaurant);
-
-            //*******DO NOT DELETE***********
-//            AddRestaurantCommand addRestaurantCommand = new AddRestaurantCommand();
-//            addRestaurantCommand.setRestaurantName(restaurant.getRestaurantName());
-//            addRestaurantCommand.setAddress(restaurant.getAddress());
-//            addRestaurantCommand.setMenuList(restaurant.getMenuList());
-//
-//            String restaurantJson = objectMapper.writeValueAsString(addRestaurantCommand);
-//            Message message = MessageBuilder
-//                    .withBody(restaurantJson.getBytes())
-//                    .setContentType(MessageProperties.CONTENT_TYPE_JSON)
-//                    .build();
-//            this.rabbitTemplate.convertAndSend("addrestaurant-command", message);
 
 
         } catch (Exception e) {

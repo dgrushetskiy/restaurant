@@ -10,18 +10,6 @@ server:
 spring:
   application:
     name: searchfood
-#  cloud:
-#    openfeign:
-#      circuitbreaker:
-#        enabled: true
-#        alphanumeric-ids:
-#          enabled: true
-#resilience4j:
-#  circuitbreaker:
-#    configs:
-#      default:
-#        baseConfig:
-#          fallbackEnabled: true
 feign:
   circuitbreaker:
     enabled: true
