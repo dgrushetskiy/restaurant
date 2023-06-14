@@ -28,23 +28,13 @@ spring:
         - id: registration-route-id
           uri: lb://registration
           predicates:
-            - Path=/food/api/v1/user/register/
-        - id: login-route-id
-          uri: lb://registration
-          predicates:
-            - Path=/food/api/v1/user/login/**
+            - Path=/food/api/v1/user/register/** , /food/api/v1/user/login/**
         - id: search-route-id
           uri: lb://searchfood
           filters:
             - RoleAuth=CUSTOMER
           predicates:
-            - Path=/food/api/v1/user/restaurantname/**
-        - id: search-route-id
-          uri: lb://searchfood
-#          filters:
-#            - RoleAuth=CUSTOMER
-          predicates:
-            - Path=/food/api/v1/user/menuitem/**
+            - Path=/food/api/v1/user/restaurantname/** , /food/api/v1/user/menuitem/**
 #  main:
 #    allow-bean-definition-overriding: true
 eureka:

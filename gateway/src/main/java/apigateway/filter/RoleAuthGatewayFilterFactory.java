@@ -34,12 +34,21 @@ public class RoleAuthGatewayFilterFactory extends
             // JWTUtil can extract the token from the request, parse it and verify if the given role is available
 
             LOGGER.info("Inside Gateway Filter");
-            if(!jwtTokenUtil.hasRole( request, config.getRole())){
-                // seems we miss the auth token
+            try{
+                if(!jwtTokenUtil.hasRole( request, config.getRole())){
+                    // seems we miss the auth token
+                    var response = exchange.getResponse();
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+
+                    return response.setComplete();
+                }
+            }catch (Exception e){
+                LOGGER.info("Authorization failed");
                 var response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return response.setComplete();
             }
+
             return chain.filter(exchange);
         };
     }

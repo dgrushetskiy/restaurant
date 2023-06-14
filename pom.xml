@@ -8,7 +8,6 @@
         <module>updatePrice</module>
         <module>searchFood</module>
 		<module>discovery</module>
-		<module>apigateway</module>
 		<module>reviews</module>
 		<module>batchLoad</module>
 		<module>gateway</module>
