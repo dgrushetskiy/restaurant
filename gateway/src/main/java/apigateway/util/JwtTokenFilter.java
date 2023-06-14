@@ -1,5 +1,7 @@
-//package searchFood.util;
+//package apigateway.util;
 //
+//import apigateway.repository.UserRepository;
+//import apigateway.service.AppUserDetailsService;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.HttpHeaders;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,8 +10,6 @@
 //import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 //import org.springframework.stereotype.Component;
 //import org.springframework.web.filter.OncePerRequestFilter;
-//import searchFood.repository.UserRepository;
-//import searchFood.service.AppUserDetailsService;
 //
 //import javax.servlet.FilterChain;
 //import javax.servlet.ServletException;

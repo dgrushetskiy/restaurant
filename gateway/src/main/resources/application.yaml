@@ -15,22 +15,34 @@ spring:
       routes:
         - id: addrestaurant-route-id
           uri: lb://addrestaurant
+          filters:
+            - RoleAuth=ADMIN
           predicates:
             - Path=/food/api/v1/admin/add-restaurant/**
         - id: updateprice-route-id
           uri: lb://updateprice
+          filters:
+            - RoleAuth=ADMIN
           predicates:
             - Path=/food/api/v1/admin/update-price/**
         - id: registration-route-id
           uri: lb://registration
           predicates:
-            - Path=/food/api/v1/user/register/**
+            - Path=/food/api/v1/user/register/
+        - id: login-route-id
+          uri: lb://registration
+          predicates:
+            - Path=/food/api/v1/user/login/**
         - id: search-route-id
           uri: lb://searchfood
+          filters:
+            - RoleAuth=CUSTOMER
           predicates:
             - Path=/food/api/v1/user/restaurantname/**
         - id: search-route-id
           uri: lb://searchfood
+#          filters:
+#            - RoleAuth=CUSTOMER
           predicates:
             - Path=/food/api/v1/user/menuitem/**
 #  main:
