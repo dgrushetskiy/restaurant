@@ -23,7 +23,7 @@ public interface ReviewsFeignClient {
 
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/test", consumes = "application/json")
-    @Headers("Content-Type: application/json")
-    String fetchTestReviews() ;
+//    @RequestMapping(method = RequestMethod.GET, value = "/test", consumes = "application/json")
+//    @Headers("Content-Type: application/json")
+//    String fetchTestReviews() ;
 }

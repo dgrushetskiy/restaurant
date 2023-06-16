@@ -1,5 +1,10 @@
 package searchFood.model;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class RestaurantSearchResult extends SearchResult{
     private String name;
     private String address;

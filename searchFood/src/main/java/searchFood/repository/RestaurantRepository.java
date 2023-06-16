@@ -26,6 +26,10 @@ public class RestaurantRepository {
     @Autowired
     private ReviewsFeignClient feignClient;
 
+    public void setFeignClient(ReviewsFeignClient feignClient) {
+        this.feignClient = feignClient;
+    }
+
     public DynamoDBMapper getDynamoDBMapper() {
         return dynamoDBMapper;
     }
@@ -46,16 +50,6 @@ public class RestaurantRepository {
         return searchRestaurant;
     }
 
-    /**
-     * Retrieves a restaurant by name from the DynamoDB table.
-     *
-     * @param restaurantName The name of the restaurant to retrieve.
-     * @return The retrieved restaurant or null if not found.
-     */
-//    public SearchRestaurant getRestaurantByName(String restaurantName) {
-//        LOGGER.info("Retrieving restaurant by name: {}", restaurantName);
-//        return dynamoDBMapper.load(SearchRestaurant.class, restaurantName);
-//    }
 
     /**
      * Finds all items under a specific restaurant by name.
@@ -174,49 +168,6 @@ public class RestaurantRepository {
         searchResults.sort(comparator);
         return searchResults;
     }
-
-    /**
-     * Maps the menu items of a restaurant to search results.
-     *
-     * @param restaurant The restaurant object.
-     * @return The list of search results.
-     */
-//    private List<SearchResult> mapToSearchResult(SearchRestaurant restaurant) {
-//
-//                 List<SearchResult> results = restaurant.getMenuList().getItems().stream()
-//                .map(menu -> {
-//                    SearchResult searchItem = new SearchResult();
-//                    searchItem.setRestaurantName(restaurant.getRestaurantName());
-//                    searchItem.setAddress(restaurant.getAddress());
-//                    searchItem.setItemName(menu.getItemName());
-//                    searchItem.setRatings(menu.getRatings());
-//                    searchItem.setPrice(menu.getPrice());
-//                    return searchItem;
-//                })
-//                .collect(Collectors.toList());
-//
-//                 return results;
-
-//        List<SearchResult> results = new ArrayList<>();
-//        try {
-//            MenuList menuList = restaurant.getMenuList();
-//            List<Menu> items = menuList.getItems();
-//            for (Menu menu : items) {
-//
-//                SearchResult searchItem = new SearchResult();
-//                searchItem.setRestaurantName(restaurant.getRestaurantName());
-//                searchItem.setAddress(restaurant.getAddress());
-//                searchItem.setItemName(menu.getItemName());
-//                searchItem.setRatings(menu.getRatings());
-//                searchItem.setPrice(menu.getPrice());
-//                results.add(searchItem);
-//
-//            }
-//        } catch (Exception e) {
-//            LOGGER.error("Error occurred while mapping restaurant to search results", e);
-//        }
-//        return results;
-//    }
 
     /**
      * Finds all items by name across all restaurants.

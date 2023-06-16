@@ -17,37 +17,34 @@ import java.util.List;
 @RequestMapping("/review")
 public class ReviewController {
 
-
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ReviewController.class);
 
     @Autowired
     private ReviewRepository reviewRepository;
 
+    public void setReviewRepository(ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;
+    }
+
     @PostMapping("/restaurantitem")
     public List<ResponseItem> findReviews(@RequestBody ReviewRequest request) {
-    //public ResponseEntity<Object> findReviews(@RequestBody ReviewRequest request) {
         LOGGER.info("Start findReviews");
 
         try {
-            //List<ReviewResponse> myList = reviewRepository.findItemReviews(request);
             List<ResponseItem> myList = reviewRepository.findItemReviews(request);
 
-            //LOGGER.info("Request processed successfully.");
-            //return ResponseEntity.ok(myList);
             return myList;
         }catch (Exception e) {
             LOGGER.error("An error occurred while processing the search request.", e);
-            //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the search request.");
         }
         return null;
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<Object> testReviews() {
-        LOGGER.info("Start testReviews");
-
-        LOGGER.info("Request processed successfully.");
-        return ResponseEntity.ok("Processed Successfully");
-    }
+//    @GetMapping("/test")
+//    public ResponseEntity<Object> testReviews() {
+//        LOGGER.info("Start testReviews");
+//
+//        LOGGER.info("Request processed successfully.");
+//        return ResponseEntity.ok("Processed Successfully");
+//    }
 }

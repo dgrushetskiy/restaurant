@@ -7,18 +7,28 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import registration.model.AppUser;
 import registration.model.LoginModel;
+import registration.model.Response;
 import registration.repository.UserRepository;
+import registration.service.AppUserDetailsService;
+import registration.util.JwtTokenUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-class AppUserControllerTest {
+class UserControllerTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private AppUserDetailsService userDetailsService;
+
+    @Mock
+    private JwtTokenUtil jwtTokenUtil;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -44,7 +54,7 @@ class AppUserControllerTest {
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("AppUser registered successfully", response.getBody());
+        assertEquals("User registered successfully", response.getBody());
         verify(userRepository, times(1)).getUserByEmail(appUser.getEmail());
         verify(passwordEncoder, times(1)).encode(appUser.getPassword());
         verify(userRepository, times(1)).saveUser(appUser);
@@ -80,23 +90,37 @@ class AppUserControllerTest {
     }
 
     @Test
-    void testLoginUser_WithValidCredentials_ReturnsSuccessResponse() {
+    void loginUser_ValidCredentials_ReturnsJwtToken() {
         // Arrange
-        AppUser existingAppUser = createValidCustomer();
         LoginModel loginModel = new LoginModel();
-        loginModel.setEmail(existingAppUser.getEmail());
-        loginModel.setPassword(existingAppUser.getPassword());
-        when(userRepository.getUserByEmail(loginModel.getEmail())).thenReturn(existingAppUser);
-        when(passwordEncoder.matches(loginModel.getPassword(), existingAppUser.getPassword())).thenReturn(true);
+        loginModel.setEmail("test@example.com");
+        loginModel.setPassword("password");
+
+        AppUser existingAppUser = new AppUser();
+        existingAppUser.setEmail("test@example.com");
+        existingAppUser.setPassword(passwordEncoder.encode("password"));
+
+        when(userRepository.getUserByEmail("test@example.com")).thenReturn(existingAppUser);
+        when(passwordEncoder.matches("password", existingAppUser.getPassword())).thenReturn(true);
+
+        UserDetails userDetails = mock(UserDetails.class);
+        when(userDetailsService.loadUserByUsername("test@example.com")).thenReturn(userDetails);
+
+        String jwtToken = "jwtToken";
+        when(jwtTokenUtil.generateToken(userDetails)).thenReturn(jwtToken);
 
         // Act
-        ResponseEntity<String> response = (ResponseEntity<String>) userController.loginUser(loginModel);
+        ResponseEntity<?> response = userController.loginUser(loginModel);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("AppUser logged in successfully", response.getBody());
-        verify(userRepository, times(1)).getUserByEmail(loginModel.getEmail());
-        verify(passwordEncoder, times(1)).matches(loginModel.getPassword(), existingAppUser.getPassword());
+        assertEquals(new Response(jwtToken), response.getBody());
+
+        // Verify the interactions with mocks
+        verify(userRepository, times(1)).getUserByEmail("test@example.com");
+        verify(passwordEncoder, times(1)).matches("password", existingAppUser.getPassword());
+        verify(userDetailsService, times(1)).loadUserByUsername("test@example.com");
+        verify(jwtTokenUtil, times(1)).generateToken(userDetails);
     }
 
     @Test
@@ -112,10 +136,10 @@ class AppUserControllerTest {
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("AppUser not found", response.getBody());
+        assertEquals("User not found", response.getBody());
         verify(userRepository, times(1)).getUserByEmail(loginModel.getEmail());
         verify(passwordEncoder, never()).matches(anyString(), anyString());
     }
 
-    // Add more test cases to cover other scenarios
+
 }

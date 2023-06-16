@@ -105,13 +105,4 @@ public class UserController {
 
     }
 
-//    @GetMapping("/test")
-//    public ResponseEntity<?> testMethod () {
-//        return ResponseEntity.ok().body("Processed Successfully");
-//    }
-//
-//    @GetMapping("/best")
-//    public ResponseEntity<?> bestMethod () {
-//        return ResponseEntity.ok().body("Processed Successfully");
-//    }
 }

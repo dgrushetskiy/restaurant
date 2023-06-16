@@ -23,7 +23,7 @@ public class RestaurantRepository {
      */
     public Restaurant saveRestaurant(Restaurant restaurant) {
         try {
-        dynamoDBMapper.save(restaurant);
+            dynamoDBMapper.save(restaurant);
             LOGGER.info("Restaurant saved successfully: {}", restaurant.getRestaurantName());
         } catch (Exception e) {
             LOGGER.error("Failed to save restaurant: {}", restaurant.getRestaurantName(), e);

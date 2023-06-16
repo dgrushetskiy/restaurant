@@ -27,7 +27,7 @@ class MenuTest {
     @Test
     void constructor_AllArgsConstructor() {
         // Create sample data
-        String itemName = "Sample Item";
+        String itemName = "Burger";
         String ratings = "4.5";
         String price = "10.99";
 

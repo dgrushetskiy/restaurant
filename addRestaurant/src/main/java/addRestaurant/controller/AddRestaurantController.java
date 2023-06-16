@@ -5,7 +5,6 @@ import addRestaurant.model.MenuList;
 import addRestaurant.model.Restaurant;
 import addRestaurant.model.AddRestaurantCommand;
 import addRestaurant.repository.RestaurantRepository;
-//import addRestaurant.service.AddRestaurantCommandHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
@@ -32,26 +31,26 @@ public class AddRestaurantController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddRestaurantController.class);
 
-//    @Autowired
-//    AddRestaurantCommandHandler commandHandler;
-
-    @Value("${rabbitmq.exchange.name}")
-    private String exchange;
-
-    @Value("${rabbitmq.routing.json.key}")
-    private String routingJsonKey;
-
     @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    public void setRestaurantRepository(RestaurantRepository restaurantRepository) {
+        this.restaurantRepository = restaurantRepository;
+    }
+
     private final RabbitTemplate rabbitTemplate;
 
     public AddRestaurantController(final RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
+
     /**
      * Adds a new restaurant with menu details.
      *
@@ -86,7 +85,7 @@ public class AddRestaurantController {
                     return ResponseEntity.badRequest().body("Price " + menu.getPrice() + " of item " + menu.getItemName() + " is non-numeric");
                 }
 
-                if (!isValidValue(String.valueOf(menu.getItemName()))){
+                if (!isValidValue(String.valueOf(menu.getItemName()))) {
                     LOGGER.warn("Invalid item name: {}", menu.getItemName());
                     return ResponseEntity.badRequest().body("Item name " + menu.getItemName() + " is invalid");
                 }
@@ -114,13 +113,10 @@ public class AddRestaurantController {
             Restaurant restaurant = new Restaurant();
             restaurant.setRestaurantName(restaurantRequest.getRestaurantName());
             restaurant.setAddress(restaurantRequest.getAddress());
-           restaurant.setMenuList(restaurantRequest.getMenuList());
+            restaurant.setMenuList(restaurantRequest.getMenuList());
             restaurant.setCreatedAt(String.valueOf(LocalDateTime.now()));
 
             restaurantRepository.saveRestaurant(restaurant);
-
-            //rabbitTemplate.convertAndSend(exchange, routingJsonKey, restaurantRequest);
-            //commandHandler.handleCommand(restaurantRequest);
 
 
             String restaurantJson = objectMapper.writeValueAsString(restaurantRequest);
@@ -139,12 +135,22 @@ public class AddRestaurantController {
         }
     }
 
+    /**
+     * Checks if the given value is a valid item name.
+     * @param value the value to check
+     * @return true if the value is a valid item name, false otherwise
+     */
     public static boolean isValidValue(String value) {
+        // Iterate over all possible item names
         for (Menu.ItemName itemName : Menu.ItemName.values()) {
+            // Check if the value matches the current item name
             if (itemName.getValue().equals(value)) {
+                // If a match is found, return true
                 return true;
             }
         }
+        // If no match is found, return false
         return false;
     }
+
 }

@@ -6,12 +6,14 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Data
 @Configuration
 public class DynamoDBConfig {
 
@@ -46,14 +48,14 @@ public class DynamoDBConfig {
      * @return The configured AmazonDynamoDB client.
      */
     public AmazonDynamoDB buildAmazonDynamoDB() {
-        try{
+        try {
             return AmazonDynamoDBClientBuilder
-                .standard()
-                .withEndpointConfiguration(
-                        new AwsClientBuilder.EndpointConfiguration(dynamodbEndpoint,awsRegion))
-                .withCredentials(new AWSStaticCredentialsProvider(
-                        new BasicAWSCredentials(dynamodbAccessKey,dynamodbSecretKey)))
-                .build();
+                    .standard()
+                    .withEndpointConfiguration(
+                            new AwsClientBuilder.EndpointConfiguration(dynamodbEndpoint, awsRegion))
+                    .withCredentials(new AWSStaticCredentialsProvider(
+                            new BasicAWSCredentials(dynamodbAccessKey, dynamodbSecretKey)))
+                    .build();
         } catch (Exception e) {
             LOGGER.error("Error occurred while building AmazonDynamoDB client", e);
             throw e;

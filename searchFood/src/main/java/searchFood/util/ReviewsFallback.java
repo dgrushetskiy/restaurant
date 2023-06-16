@@ -22,9 +22,9 @@ public class ReviewsFallback implements ReviewsFeignClient{
         return new ArrayList<>();
     }
 
-    @Override
-    public String fetchTestReviews() {
-        LOGGER.info("ReviewsFallback - fetchTestReviews");
-        return null;
-    }
+//    @Override
+//    public String fetchTestReviews() {
+//        LOGGER.info("ReviewsFallback - fetchTestReviews");
+//        return null;
+//    }
 }

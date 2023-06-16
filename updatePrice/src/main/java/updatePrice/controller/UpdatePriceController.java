@@ -31,6 +31,26 @@ public class UpdatePriceController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    public RestaurantRepository getRestaurantRepository() {
+        return restaurantRepository;
+    }
+
+    public void setRestaurantRepository(RestaurantRepository restaurantRepository) {
+        this.restaurantRepository = restaurantRepository;
+    }
+
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    public RabbitTemplate getRabbitTemplate() {
+        return rabbitTemplate;
+    }
+
     private final RabbitTemplate rabbitTemplate;
 
     public UpdatePriceController(RabbitTemplate rabbitTemplate) {

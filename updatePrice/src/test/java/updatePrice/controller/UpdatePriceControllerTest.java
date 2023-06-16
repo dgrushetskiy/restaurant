@@ -1,12 +1,16 @@
 package updatePrice.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+//import org.springframework.messaging.Message;
 import org.springframework.web.bind.annotation.PathVariable;
 import updatePrice.model.Menu;
 import updatePrice.model.MenuList;
@@ -28,41 +32,60 @@ class UpdatePriceControllerTest {
     @Mock
     private RestaurantRepository restaurantRepository;
 
+    @Mock
+    private ObjectMapper objectMapper;
+
+    @Mock
+    private RabbitTemplate rabbitTemplate;
+
     @InjectMocks
     private UpdatePriceController updatePriceController;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        updatePriceController = new UpdatePriceController(rabbitTemplate);
+        updatePriceController.setRestaurantRepository(restaurantRepository);
+        updatePriceController.setObjectMapper(objectMapper);
     }
 
     @Test
-    void testUpdatePrice_WithValidParameters_ReturnsSuccessfulResponse() {
+    void updatePrice_ValidRequest_ReturnsOkResponse() throws Exception {
         // Arrange
-        String restaurantName = "Restaurant1";
+        String restaurantName = "Restaurant A";
         String menuItemName = "Pizza";
         String newPrice = "150.00";
-        Restaurant existingRestaurant = createRestaurantWithMenuItems();
-        when(restaurantRepository.getRestaurantByRestaurantName(restaurantName)).thenReturn(existingRestaurant);
 
-        PriceUpdateRequest priceUpdateRequest = new PriceUpdateRequest(menuItemName, newPrice);
+        PriceUpdateRequest priceUpdateRequest = new PriceUpdateRequest();
+        priceUpdateRequest.setMenuItemName(menuItemName);
+        priceUpdateRequest.setNewPrice(newPrice);
+
+        Restaurant existingRestaurant = new Restaurant();
+        existingRestaurant.setRestaurantName(restaurantName);
+        MenuList menuList = new MenuList();
+        List<Menu> items = new ArrayList<>();
+        Menu menu = new Menu();
+        menu.setItemName(menuItemName);
+        menu.setPrice("100.00");
+        items.add(menu);
+        menuList.setItems(items);
+        existingRestaurant.setMenuList(menuList);
+
+        when(restaurantRepository.getRestaurantByRestaurantName(restaurantName)).thenReturn(existingRestaurant);
+        when(objectMapper.writeValueAsString(any())).thenReturn("json");
+        //when(rabbitTemplate.convertAndSend(eq("priceupdate-command"), any(Message.class))).thenReturn(null);
+
+
         // Act
-        ResponseEntity<String> response = updatePriceController.updatePrice(restaurantName, priceUpdateRequest);
+        ResponseEntity<String> responseEntity = updatePriceController.updatePrice(restaurantName, priceUpdateRequest);
 
         // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Price updated successfully", response.getBody());
-
-        MenuList updatedMenuList = existingRestaurant.getMenuList();
-        List<Menu> updatedItems = updatedMenuList.getItems();
-        AtomicBoolean itemFound = new AtomicBoolean(false);
-        updatedItems.forEach(menu -> {
-            if (menu.getItemName().equals(menuItemName) && menu.getPrice().equals(newPrice)) {
-                itemFound.set(true);
-            }
-        });
-        assertEquals(true, itemFound.get());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("Price updated successfully", responseEntity.getBody());
+        assertEquals(newPrice, items.get(0).getPrice());
+        verify(restaurantRepository, times(1)).getRestaurantByRestaurantName(restaurantName);
         verify(restaurantRepository, times(1)).saveRestaurant(existingRestaurant);
+        //verify(rabbitTemplate, times(1)).convertAndSend(eq("priceupdate-command"), any(Message.class));
     }
 
     @Test
