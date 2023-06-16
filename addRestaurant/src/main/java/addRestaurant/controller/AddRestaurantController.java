@@ -11,7 +11,6 @@ import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -137,6 +136,7 @@ public class AddRestaurantController {
 
     /**
      * Checks if the given value is a valid item name.
+     *
      * @param value the value to check
      * @return true if the value is a valid item name, false otherwise
      */

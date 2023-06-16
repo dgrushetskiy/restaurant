@@ -54,7 +54,7 @@ public class DynamoDBConfig {
                     .withCredentials(new AWSStaticCredentialsProvider(
                             new BasicAWSCredentials(dynamodbAccessKey, dynamodbSecretKey)))
                     .build();
-        }catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Error occurred while building AmazonDynamoDB client", e);
             throw e;
         }

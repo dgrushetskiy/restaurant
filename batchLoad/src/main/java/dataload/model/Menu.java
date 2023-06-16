@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @DynamoDBDocument
 public class Menu {
 
+    // Enum representing possible item names
     public enum ItemName {
         Naan("Naan"),
         Pizza("Pizza"),
@@ -20,46 +21,27 @@ public class Menu {
 
         private final String value;
 
+        // Enum constructor
         ItemName(String value) {
             this.value = value;
         }
 
+        // Getter for the enum value
         public String getValue() {
             return value;
         }
     }
 
-
+    // DynamoDBAttribute annotation to mark the itemName field for persistence
     @DynamoDBAttribute
     private String itemName;
 
+    // DynamoDBAttribute annotation to mark the ratings field for persistence
     @DynamoDBAttribute
     private String ratings;
 
+    // DynamoDBAttribute annotation to mark the price field for persistence
     @DynamoDBAttribute
     private String price;
 
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public String getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(String ratings) {
-        this.ratings = ratings;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
 }

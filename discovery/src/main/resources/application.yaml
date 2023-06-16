@@ -1,10 +1,16 @@
 spring:
   application:
     name: eureka-discovery-server
+    # Specifies the name of the Spring Boot application as "eureka-discovery-server"
+
 server:
   port: 9000
+  # Configures the server port to 9000
+
 eureka:
   client:
     fetch-registry: false
-    register-with-eureka: false
+    # Specifies whether the Eureka server registry should be fetched or not (set to false)
 
+    register-with-eureka: false
+    # Specifies whether the application should register itself with the Eureka server or not (set to false)

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dataload.model.Restaurant;
 import dataload.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -20,33 +22,41 @@ import java.util.List;
 @Component
 public class LoadData implements Tasklet {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoadData.class);
 
-    //@Autowired
     private RestaurantRepository restaurantRepository;
 
+    // Constructor-based dependency injection for the RestaurantRepository
     public LoadData(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception
-    {
-        System.out.println("LoadData start..");
-        //RestaurantRepository restaurantRepository =  new RestaurantRepository();
-        //Restaurant restaurant = new Restaurant();
+    // Method that gets executed when the tasklet is run
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+        LOGGER.info("LoadData start..");
+
+        // ObjectMapper for JSON deserialization
         ObjectMapper mapper = new ObjectMapper();
+
+        // TypeReference to preserve generic type information during deserialization
         TypeReference<List<Restaurant>> typeReference = new TypeReference<List<Restaurant>>(){};
+
+        // Read the JSON data file as an InputStream
         InputStream inputStream = TypeReference.class.getResourceAsStream("/data.json");
+
         try {
-            List<Restaurant> restaurants = mapper.readValue(inputStream,typeReference);
+            // Deserialize the JSON data into a list of Restaurant objects
+            List<Restaurant> restaurants = mapper.readValue(inputStream, typeReference);
 
-            restaurants.stream().forEach(restaurant -> restaurantRepository.saveRestaurant(restaurant));
+            // Save each restaurant to the repository
+            restaurants.forEach(restaurant -> restaurantRepository.saveRestaurant(restaurant));
 
-            System.out.println("Data Saved!");
-        } catch (IOException e){
-            System.out.println("Unable to save data: " + e.getMessage());
+            LOGGER.info("Data Saved!");
+        } catch (IOException e) {
+            LOGGER.info("Unable to save data: " + e.getMessage());
         }
 
-        System.out.println("LoadData done..");
+        LOGGER.info("LoadData done..");
         return RepeatStatus.FINISHED;
     }
 }

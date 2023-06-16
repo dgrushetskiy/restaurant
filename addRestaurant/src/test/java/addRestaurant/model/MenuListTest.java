@@ -3,7 +3,6 @@ package addRestaurant.model;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,5 +44,4 @@ class MenuListTest {
         // Assert that the list of items is set correctly
         assertEquals(items, menuList.getItems());
     }
-
 }

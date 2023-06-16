@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig  {
+public class SecurityConfig {
 
     @Autowired
     private JwtTokenFilter jwtTokenFilter;
@@ -69,7 +69,7 @@ public class SecurityConfig  {
                 .antMatchers(HttpMethod.POST, "/food/api/v1/user/register").permitAll()
 
                 // Our private endpoints
-                .antMatchers(HttpMethod.GET, "/food/api/v1/user/test").hasAnyAuthority( "CUSTOMER")
+                .antMatchers(HttpMethod.GET, "/food/api/v1/user/test").hasAnyAuthority("CUSTOMER")
                 .antMatchers(HttpMethod.GET, "/food/api/v1/user/best").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
         );

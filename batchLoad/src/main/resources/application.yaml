@@ -1,20 +1,12 @@
 amazon:
   dynamodb:
-    endpoint: http://localhost:8000
+    endpoint: http://localhost:8000   # Endpoint URL of the DynamoDB service
   aws:
-    region: us-east-1
-    accesskey: dummyid
-    secretkey: dummypw
+    region: us-east-1   # AWS region to use
+    accesskey: dummyid   # AWS access key (replace with valid access key)
+    secretkey: dummypw   # AWS secret key (replace with valid secret key)
 server:
-  port: 9006
+  port: 9006   # Port number on which the server will listen
 spring:
   application:
-    name: dataload
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:9000/eureka
-#    fetch-registry: true
-#    register-with-eureka: true
-#  instance:
-#    hostname: localhost
+    name: dataload   # Name of the Spring Boot application

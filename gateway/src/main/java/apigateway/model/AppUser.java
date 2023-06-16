@@ -10,46 +10,23 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamoDBTable(tableName = "user")
+@DynamoDBTable(tableName = "user") // Specifies the name of the DynamoDB table
 public class AppUser {
 
-    @DynamoDBHashKey
-    @DynamoDBAttribute
-    private String email;
+    @DynamoDBHashKey // Marks the field as the hash key for the DynamoDB table
+    @DynamoDBAttribute // Indicates that this field is an attribute of the DynamoDB table
+    private String email; // Represents the email attribute in the DynamoDB table
 
     @DynamoDBAttribute
-    private String name;
+    private String name; // Represents the name attribute in the DynamoDB table
 
     @DynamoDBAttribute
-    private String mobileNumber;
+    private String mobileNumber; // Represents the mobileNumber attribute in the DynamoDB table
 
     @DynamoDBAttribute
-    private String password;
+    private String password; // Represents the password attribute in the DynamoDB table
 
     @DynamoDBAttribute
-    private String role;
+    private String role; // Represents the role attribute in the DynamoDB table
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }

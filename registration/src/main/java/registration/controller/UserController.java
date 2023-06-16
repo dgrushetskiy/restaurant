@@ -72,7 +72,7 @@ public class UserController {
      * @return ResponseEntity indicating the result of the login process.
      */
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginModel loginObj)  {
+    public ResponseEntity<?> loginUser(@RequestBody LoginModel loginObj) {
 
         AppUser existingAppUser = userRepository.getUserByEmail(loginObj.getEmail());
         try {
@@ -92,7 +92,7 @@ public class UserController {
             LOGGER.info("AppUser logged in successfully with email: {}", loginObj.getEmail());
 
             //return ResponseEntity.ok("AppUser logged in successfully");
-        }catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Error occurred while logging in user with email: {}", loginObj.getEmail(), e);
             return ResponseEntity.status(500).body("Internal Server Error");
         }

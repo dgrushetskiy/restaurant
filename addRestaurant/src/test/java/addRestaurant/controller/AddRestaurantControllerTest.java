@@ -5,7 +5,6 @@ import addRestaurant.model.MenuList;
 import addRestaurant.model.Restaurant;
 import addRestaurant.model.AddRestaurantCommand;
 import addRestaurant.repository.RestaurantRepository;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -23,9 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class AddRestaurantControllerTest {
@@ -41,8 +37,6 @@ class AddRestaurantControllerTest {
 
     @Mock
     private RabbitTemplate rabbitTemplate;
-
-
 
 
     @BeforeEach
@@ -326,7 +320,7 @@ class AddRestaurantControllerTest {
         // Mock the restaurant repository's getRestaurantByName method to throw an exception
         when(restaurantRepository.getRestaurantByName("Sample Restaurant")).thenThrow(RuntimeException.class);
 
-         // Call the controller method and assert the response
+        // Call the controller method and assert the response
         ResponseEntity<String> response = addRestaurantController.addRestaurant(restaurantRequest);
 
         // Verify that the restaurant repository's getRestaurantByName method was called

@@ -13,45 +13,25 @@ import lombok.NoArgsConstructor;
 @DynamoDBTable(tableName = "searchrestaurant")
 public class SearchRestaurant {
 
+    // DynamoDBHashKey annotation to mark the restaurantName field as the hash key
     @DynamoDBHashKey
     @DynamoDBAttribute
     private String restaurantName;
 
+    // DynamoDBAttribute annotation to mark the address field for persistence
     @DynamoDBAttribute
     private String address;
 
+    // A field representing a collection of menu items associated with the restaurant
     @DynamoDBAttribute
     private MenuList menuList;
 
+    // DynamoDBAttribute annotation to mark the createdAt field for persistence
     @DynamoDBAttribute
     private String createdAt;
 
+    // DynamoDBAttribute annotation to mark the updatedAt field for persistence
     @DynamoDBAttribute
     private String updatedAt;
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getRestaurantName() {
-        return restaurantName;
-    }
-
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
-    }
-
-    public MenuList getMenuList() {
-        return menuList;
-    }
-
-    public void setMenuList(MenuList menuList) {
-        this.menuList = menuList;
-    }
-
-
+    
 }

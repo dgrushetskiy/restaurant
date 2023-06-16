@@ -18,13 +18,20 @@ public class AppUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String useremail) throws UsernameNotFoundException {
 
+        // Retrieve the AppUser entity from the UserRepository based on the provided useremail
         AppUser appUser = repoUsr.getUserByEmail(useremail);
 
         if (appUser == null) {
+            // If the user is not found, throw a UsernameNotFoundException
             throw new UsernameNotFoundException(useremail);
         }
-        UserDetails usr = User.withUsername(appUser.getEmail()).password(appUser.getPassword()).authorities(appUser.getRole()).build();
-        return usr;
 
+        // Create a UserDetails object using the retrieved AppUser entity
+        UserDetails usr = User.withUsername(appUser.getEmail())
+                .password(appUser.getPassword())
+                .authorities(appUser.getRole())
+                .build();
+
+        return usr;
     }
 }

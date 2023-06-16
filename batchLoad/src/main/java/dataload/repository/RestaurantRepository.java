@@ -25,7 +25,6 @@ public class RestaurantRepository {
         LOGGER.info("RestaurantRepository Created");
     }
 
-
     private final RabbitTemplate rabbitTemplate;
 
 
@@ -60,21 +59,6 @@ public class RestaurantRepository {
             //throw e; // Rethrow the exception to be handled by the caller
         }
         return restaurant;
-    }
-
-    /**
-     * Retrieves a restaurant by its name.
-     *
-     * @param name The name of the restaurant.
-     * @return The restaurant with the given name, or null if not found.
-     */
-    public Restaurant getRestaurantByName(String name) {
-        try {
-            return dynamoDBMapper.load(Restaurant.class, name);
-        } catch (Exception e) {
-            LOGGER.error("Failed to retrieve restaurant by name: {}", name, e);
-            throw e; // Rethrow the exception to be handled by the caller
-        }
     }
 
 }

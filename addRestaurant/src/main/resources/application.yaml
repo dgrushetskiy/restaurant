@@ -1,15 +1,25 @@
+# Amazon DynamoDB configuration
 amazon:
   dynamodb:
     endpoint: http://localhost:8000
+
+# AWS configuration
+amazon:
   aws:
     region: us-east-1
     accesskey: dummyid
     secretkey: dummypw
+
+# Server port configuration
 server:
   port: 9002
+
+# Spring application name
 spring:
   application:
     name: addrestaurant
+
+# Eureka client configuration
 eureka:
   client:
     service-url:
@@ -18,6 +28,8 @@ eureka:
     register-with-eureka: true
   instance:
     hostname: localhost
+
+# RabbitMQ configuration
 rabbitmq:
   exchange:
     name: restaurant_exchange

@@ -14,6 +14,7 @@ import java.util.List;
 @DynamoDBDocument
 public class MenuList {
 
+    // DynamoDBAttribute annotation to mark the items field for persistence
     @DynamoDBAttribute
     private List<Menu> items;
 }

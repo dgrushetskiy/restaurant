@@ -29,46 +29,58 @@ public class JwtTokenUtil {
 
     private String SECRET_KEY = "secret";
 
+    // Extract the username from the token
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+    // Extract the expiration date from the token
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    // Extract a specific claim from the token
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
+    // Extract all claims from the token
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
+    // Check if the token is expired
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
+    // Generate a new token for the given user details
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, userDetails.getUsername());
     }
 
+    // Create a token with the specified claims and subject
     private String createToken(Map<String, Object> claims, String subject) {
-
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .compact();
     }
 
+    // Validate the token for the given user details
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    // Check if the user has the specified role based on the token
     public boolean hasRole(ServerHttpRequest request, String role) {
         LOGGER.info("Checking user role");
-        //final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         final List<String> authorizationHeaders = request.getHeaders().get(HttpHeaders.AUTHORIZATION);
 
         String username = null;
@@ -83,20 +95,19 @@ public class JwtTokenUtil {
             }
         }
 
-
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
             UserDetails userDetails = appUserDetailsService.loadUserByUsername(username);
 
             if (validateToken(jwt, userDetails)) {
                 LOGGER.info("JWT Token is Valid.");
                 LOGGER.info(userDetails.getAuthorities().toString());
                 LOGGER.info(role);
-                if (userDetails.getAuthorities().toString().contains(role)){
+                if (userDetails.getAuthorities().toString().contains(role)) {
                     return true;
                 }
             }
         }
+
         LOGGER.info("Role is not found");
         return false;
     }

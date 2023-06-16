@@ -1,24 +1,24 @@
 amazon:
   dynamodb:
-    endpoint: http://localhost:8000
+    endpoint: http://localhost:8000  # Endpoint for the DynamoDB service
   aws:
-    region: us-east-1
-    accesskey: dummyid
-    secretkey: dummypw
+    region: us-east-1  # AWS region
+    accesskey: dummyid  # Access key for authentication
+    secretkey: dummypw  # Secret key for authentication
 server:
-  port: 9999
+  port: 9999  # Port on which the server will listen
 spring:
   application:
-    name: apigateway
+    name: apigateway  # Name of the Spring Boot application
   cloud:
     gateway:
-      routes:
-        - id: addrestaurant-route-id
-          uri: lb://addrestaurant
+      routes:  # Configuration for the gateway routes
+        - id: addrestaurant-route-id  # ID for the route
+          uri: lb://addrestaurant  # URI for load-balanced routing
           filters:
-            - RoleAuth=ADMIN
+            - RoleAuth=ADMIN  # Filter for role-based authentication (for ADMIN role)
           predicates:
-            - Path=/food/api/v1/admin/add-restaurant/**
+            - Path=/food/api/v1/admin/add-restaurant/**  # Predicate for matching request path
         - id: updateprice-route-id
           uri: lb://updateprice
           filters:
@@ -32,14 +32,14 @@ spring:
         - id: search-route-id
           uri: lb://searchfood
           filters:
-            - RoleAuth=CUSTOMER
+            - RoleAuth=CUSTOMER  # Filter for role-based authentication (for CUSTOMER role)
           predicates:
             - Path=/food/api/v1/user/restaurantname/** , /food/api/v1/user/menuitem/**
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:9000/eureka
-    fetch-registry: true
-    register-with-eureka: true
+      defaultZone: http://localhost:9000/eureka  # Eureka server URL for service discovery
+    fetch-registry: true  # Fetch registry from Eureka server
+    register-with-eureka: true  # Register with Eureka server
   instance:
-    hostname: localhost
+    hostname: localhost  # Hostname of the current instance
