@@ -5,11 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import searchFood.model.SearchRestaurant;
 import searchFood.repository.RestaurantRepository;
-import searchFood.service.PriceUpdateCommandHandler;
 import org.slf4j.Logger;
 
 import static org.mockito.Mockito.*;
@@ -29,7 +26,6 @@ class PriceUpdateCommandHandlerTest {
         MockitoAnnotations.openMocks(this);
         priceUpdateCommandHandler = new PriceUpdateCommandHandler();
         priceUpdateCommandHandler.restaurantRepository = restaurantRepository;
-        //priceUpdateCommandHandler.LOGGER = logger;
     }
 
     @Test
@@ -45,7 +41,6 @@ class PriceUpdateCommandHandlerTest {
 
         // Assert
         verify(restaurantRepository, times(1)).saveRestaurant(searchRestaurant);
-        //verify(logger, times(1)).info("PriceUpdateCommandHandler: Message received in queue priceupdate-command");
     }
 
 }

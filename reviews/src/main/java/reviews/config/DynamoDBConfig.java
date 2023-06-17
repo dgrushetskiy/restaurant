@@ -46,14 +46,14 @@ public class DynamoDBConfig {
      * @return The configured AmazonDynamoDB client.
      */
     public AmazonDynamoDB buildAmazonDynamoDB() {
-        try{
+        try {
             return AmazonDynamoDBClientBuilder
-                .standard()
-                .withEndpointConfiguration(
-                        new AwsClientBuilder.EndpointConfiguration(dynamodbEndpoint,awsRegion))
-                .withCredentials(new AWSStaticCredentialsProvider(
-                        new BasicAWSCredentials(dynamodbAccessKey,dynamodbSecretKey)))
-                .build();
+                    .standard()
+                    .withEndpointConfiguration(
+                            new AwsClientBuilder.EndpointConfiguration(dynamodbEndpoint, awsRegion))
+                    .withCredentials(new AWSStaticCredentialsProvider(
+                            new BasicAWSCredentials(dynamodbAccessKey, dynamodbSecretKey)))
+                    .build();
         } catch (Exception e) {
             LOGGER.error("Error occurred while building AmazonDynamoDB client", e);
             throw e;

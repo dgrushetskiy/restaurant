@@ -1,3 +1,4 @@
+# Amazon DynamoDB, AWS configuration
 amazon:
   dynamodb:
     endpoint: http://localhost:8000
@@ -5,11 +6,14 @@ amazon:
     region: us-east-1
     accesskey: dummyid
     secretkey: dummypw
+# Server port configuration
 server:
   port: 9001
+# Spring application name
 spring:
   application:
     name: registration
+# Eureka client configuration
 eureka:
   client:
     service-url:

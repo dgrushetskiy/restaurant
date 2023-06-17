@@ -1,3 +1,4 @@
+# Configuration for Amazon DynamoDB
 amazon:
   dynamodb:
     endpoint: http://localhost:8000
@@ -5,14 +6,22 @@ amazon:
     region: us-east-1
     accesskey: dummyid
     secretkey: dummypw
+
+# Server configuration
 server:
   port: 9004
+
+# Spring application configuration
 spring:
   application:
     name: searchfood
+
+# Feign client configuration
 feign:
   circuitbreaker:
     enabled: true
+
+# Eureka client configuration
 eureka:
   client:
     service-url:

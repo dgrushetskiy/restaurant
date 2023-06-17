@@ -4,36 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Data // Lombok annotation to automatically generate getters, setters, equals, hashCode, and toString methods
+@AllArgsConstructor // Lombok annotation to generate a constructor with all arguments
+@NoArgsConstructor // Lombok annotation to generate a no-argument constructor
 public class AddRestaurantCommand {
 
-    private String restaurantName;
-    private String address;
-    private MenuList menuList;
-
-    public String getRestaurantName() {
-        return restaurantName;
-    }
-
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public MenuList getMenuList() {
-        return menuList;
-    }
-
-    public void setMenuList(MenuList menuList) {
-        this.menuList = menuList;
-    }
+    private String restaurantName; //Field representing the name of the restaurant
+    private String address; //Field representing the address of the restaurant
+    private MenuList menuList; //Field representing the menu list of the restaurant
 }

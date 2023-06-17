@@ -26,14 +26,14 @@ class ReviewControllerTest {
     @Mock
     private ReviewRepository reviewRepository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ReviewController.class);
+    @Mock
+    private Logger LOGGER = LoggerFactory.getLogger(ReviewController.class);
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         reviewController = new ReviewController();
         reviewController.setReviewRepository(reviewRepository);
-        //reviewController.reviewRepository = reviewRepository;
     }
 
     @Test
@@ -63,6 +63,5 @@ class ReviewControllerTest {
         // Assert
         assertNull(actualList);
         verify(reviewRepository, times(1)).findItemReviews(request);
-        //verify(LOGGER, times(1)).error("An error occurred while processing the search request.", any());
     }
 }

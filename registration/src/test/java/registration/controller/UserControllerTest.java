@@ -22,23 +22,23 @@ import static org.mockito.Mockito.*;
 class UserControllerTest {
 
     @Mock
-    private UserRepository userRepository;
+    private UserRepository userRepository; // Mocked repository for user data.
 
     @Mock
-    private AppUserDetailsService userDetailsService;
+    private AppUserDetailsService userDetailsService; // Mocked service for user details.
 
     @Mock
-    private JwtTokenUtil jwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil; // Mocked utility for JWT token operations.
 
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder; // Mocked password encoder.
 
     @InjectMocks
-    private UserController userController;
+    private UserController userController; // Controller under test.
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this); // Initialize the mocks before each test.
     }
 
     @Test

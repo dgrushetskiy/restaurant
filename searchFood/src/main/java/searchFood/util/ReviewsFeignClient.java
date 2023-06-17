@@ -16,14 +16,11 @@ import java.util.List;
 @FeignClient(name = "review", url = "localhost:9005/review", fallback = ReviewsFallback.class)
 public interface ReviewsFeignClient {
 
+    // Define a Feign client for making HTTP requests to the review service
+    // The client is named "review" and communicates with the URL "localhost:9005/review"
+    // If the request fails or the service is unavailable, it falls back to the ReviewsFallback class
+    // to handle the request
     @RequestMapping(method = RequestMethod.POST, value = "/restaurantitem", consumes = "application/json")
     @Headers("Content-Type: application/json")
-    List<ReviewResponseItem> fetchReviews(@RequestBody ReviewRequest request) ;
-    //ResponseEntity<Object> fetchReviews(@RequestBody ReviewRequest request) ;
-
-
-
-//    @RequestMapping(method = RequestMethod.GET, value = "/test", consumes = "application/json")
-//    @Headers("Content-Type: application/json")
-//    String fetchTestReviews() ;
+    List<ReviewResponseItem> fetchReviews(@RequestBody ReviewRequest request);
 }

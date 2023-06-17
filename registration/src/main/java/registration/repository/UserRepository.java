@@ -33,14 +33,6 @@ public class UserRepository {
         return dynamoDBMapper.load(AppUser.class, email);
     }
 
-    /**
-     * Returns the DynamoDBMapper instance used by the repository.
-     *
-     * @return The DynamoDBMapper instance.
-     */
-    public DynamoDBMapper getDynamoDBMapper() {
-        return dynamoDBMapper;
-    }
 
     /**
      * Sets the DynamoDBMapper instance to be used by the repository.

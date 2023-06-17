@@ -18,14 +18,14 @@ import static org.mockito.Mockito.*;
 class AppUserDetailsServiceTest {
 
     @Mock
-    private UserRepository userRepository;
+    private UserRepository userRepository; // Mocked repository for user data.
 
     @InjectMocks
-    private AppUserDetailsService appUserDetailsService;
+    private AppUserDetailsService appUserDetailsService; // Service under test.
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this); // Initialize the mocks before each test.
     }
 
     @Test

@@ -18,6 +18,5 @@ class SearchFoodTests {
     void main_ApplicationStartsSuccessfully() {
         // Arrange & Act
         assertDoesNotThrow(() -> SpringApplication.run(SearchFood.class));
-
-     }
+    }
 }

@@ -36,7 +36,6 @@ class RestaurantRepositoryTest {
         restaurantRepository = new RestaurantRepository();
         restaurantRepository.setDynamoDBMapper(dynamoDBMapper);
         restaurantRepository.setFeignClient(feignClient);
-        //restaurantRepository.LOGGER = logger;
     }
 
     @Test
@@ -61,7 +60,6 @@ class RestaurantRepositoryTest {
 
         // Assert
         verify(dynamoDBMapper, times(1)).save(searchRestaurant);
-        //verify(logger, times(1)).info("Saved searchRestaurant: Restaurant 1");
     }
 
     @Test
@@ -88,25 +86,7 @@ class RestaurantRepositoryTest {
 
         // Assert
         verify(dynamoDBMapper, times(1)).load(SearchRestaurant.class, restaurantName);
-        //verify(logger, times(1)).info("Finding items under searchRestaurant: Restaurant 1");
     }
-
-
-//    @Test
-//    void findAllItemsbyName_ValidItemName_CallsDynamoDBMapperScan() {
-//        // Arrange
-//        String itemName = "Item 1";
-//        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-//        List<SearchRestaurant> searchRestaurantList = new ArrayList<>();
-//        when(dynamoDBMapper.scan(SearchRestaurant.class, scanExpression)).thenReturn(searchRestaurantList);
-//
-//        // Act
-//        restaurantRepository.findAllItemsbyName(null, itemName, null, null, 0, 10);
-//
-//        // Assert
-//        verify(dynamoDBMapper, times(1)).scan(SearchRestaurant.class, scanExpression);
-//        verify(logger, times(1)).info("Finding items by name: Item 1");
-//    }
 
     @Test
     void sortResultsByField_ValidField_SortsSearchResults() {
@@ -174,41 +154,4 @@ class RestaurantRepositoryTest {
         assertEquals("Item 1", sortedResults.get(0).getItemName());
         assertEquals("Item 2", sortedResults.get(1).getItemName());
     }
-
-//    @Test
-//    void findAllItemsbyName_ValidParameters_ReturnsResults() {
-//        // Arrange
-//        String itemName = "Pizza";
-//        String filter = "Italian";
-//        String sort = "ratings";
-//        int page = 0;
-//        int size = 10;
-//
-//        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-//        List<SearchRestaurant> searchRestaurantList = new ArrayList<>();
-//
-//        SearchRestaurant searchRestaurant = new SearchRestaurant();
-//        searchRestaurant.setRestaurantName("Restaurant 1");
-//        searchRestaurant.setAddress("Address 1");
-//        Menu menu = new Menu();
-//        menu.setItemName(itemName);
-//        menu.setRatings("4.5");
-//        menu.setPrice("$10");
-//        searchRestaurant.getMenuList().getItems().add(menu);
-//        searchRestaurantList.add(searchRestaurant);
-//
-//        when(dynamoDBMapper.scan(SearchRestaurant.class, scanExpression)).thenReturn(any());
-//
-//        // Act
-//        List<SearchResult> results = restaurantRepository.findAllItemsbyName(null, itemName, filter, sort, page, size);
-//
-//        // Assert
-//        assertEquals(0, results.size());
-////        assertEquals("Restaurant 1", results.get(0).getName());
-////        assertEquals("Address 1", results.get(0).getAddress());
-////        assertEquals("Pizza", results.get(0).getItemName());
-////        assertEquals("4.5", results.get(0).getRatings());
-////        assertEquals("$10", results.get(0).getPrice());
-//    }
-
 }

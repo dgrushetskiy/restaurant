@@ -19,7 +19,7 @@ public class ReviewRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReviewRepository.class);
 
     @Autowired
-    private DynamoDBMapper dynamoDBMapper;
+    private DynamoDBMapper dynamoDBMapper; // Mapper for interacting with DynamoDB
 
     public DynamoDBMapper getDynamoDBMapper() {
         return dynamoDBMapper;
@@ -36,47 +36,42 @@ public class ReviewRepository {
      * @param request The name of the item to search.
      * @return The list of search results.
      */
-    //public List<ReviewResponse> findItemReviews(ReviewRequest request) {
     public List<ResponseItem> findItemReviews(ReviewRequest request) {
 
         LOGGER.info("Beginning findItemReviews");
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-        List<ItemReview> reviewList = dynamoDBMapper.scan(ItemReview.class, scanExpression);
+        List<ItemReview> reviewList = dynamoDBMapper.scan(ItemReview.class, scanExpression); // Scans the DynamoDB table and retrieves all reviews
 
-        //List<ReviewResponse> results = new ArrayList<>();
         List<ResponseItem> results = new ArrayList<>();
 
         List<ItemReview> filteredReviews = reviewList.stream()
                 .filter(review -> request.getItems().stream()
                         .anyMatch(item -> item.getRestaurantName().equals(review.getRestaurantName())
-                                && item.getItemName().equals(review.getItemName())))
+                                && item.getItemName().equals(review.getItemName()))) // Filters the reviews based on the requested item names and restaurant names
                 .collect(Collectors.toList());
 
-        LOGGER.info("Count of filteredReviews: {}",filteredReviews.size() );
+        LOGGER.info("Count of filteredReviews: {}", filteredReviews.size());
 
         try {
-             results = filteredReviews.stream()
+            results = filteredReviews.stream()
                     .map(review -> {
                         ResponseItem responseItem = new ResponseItem();
-                        responseItem.setRestaurantName(review.getRestaurantName());
-                        responseItem.setItemName(review.getItemName());
-                        responseItem.setRatings(review.getRatings());
+                        responseItem.setRestaurantName(review.getRestaurantName()); // Sets the restaurant name in the response item
+                        responseItem.setItemName(review.getItemName()); // Sets the item name in the response item
+                        responseItem.setRatings(review.getRatings()); // Sets the ratings in the response item
 
-                        //ReviewResponse reviewResponse = new ReviewResponse();
-                        //reviewResponse.setItems(List.of(responseItem));
-
-                        //return reviewResponse;
                         return responseItem;
                     })
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList()); // Collects the response items
+
             if (results.size() == 0) {
                 LOGGER.warn("Reviews not found");
             }
         } catch (Exception e) {
             LOGGER.error("Error occurred while finding items by name", e);
         }
-        return results;
+        return results; // Returns the list of search results
     }
 
 }

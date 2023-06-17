@@ -15,51 +15,18 @@ public class ItemReview {
 
     @DynamoDBHashKey
     @DynamoDBAttribute
-    private String reviewId;
+    private String reviewId; // Unique identifier for the review
 
     @DynamoDBAttribute
-    private String restaurantName;
+    private String restaurantName; // Name of the restaurant associated with the review
 
     @DynamoDBAttribute
-    private String itemName;
+    private String itemName; // Name of the item being reviewed
 
     @DynamoDBAttribute
-    private String ratings;
+    private String ratings; // Ratings given to the item
 
     @DynamoDBAttribute
-    private String comment;
-
-    public String getRestaurantName() {
-        return restaurantName;
-    }
-
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public String getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(String ratings) {
-        this.ratings = ratings;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
+    private String comment; // Comment or feedback provided by the reviewer
 
 }

@@ -65,10 +65,8 @@ public class RestaurantRepository {
         LOGGER.info("Finding items under searchRestaurant: {}", restaurantName);
         SearchRestaurant searchRestaurant = dynamoDBMapper.load(SearchRestaurant.class, restaurantName);
         if (searchRestaurant != null) {
-            //return mapToSearchResult(searchRestaurant);
             List<SearchResult> results = searchRestaurant.getMenuList().getItems().stream()
                     .map(menu -> {
-                        //RestaurantSearchResult searchItem = new RestaurantSearchResult();
                         RestaurantSearchResult searchItem = (RestaurantSearchResult) SearchResultFactory.getSearchResult("SearchRestaurant");
                         searchItem.setName(searchRestaurant.getRestaurantName());
                         searchItem.setAddress(searchRestaurant.getAddress());
@@ -88,25 +86,22 @@ public class RestaurantRepository {
                 reviewRequestItems.add(reviewRequestItem);
             }
 
-            ReviewRequest reviewRequest  = new ReviewRequest();
+            ReviewRequest reviewRequest = new ReviewRequest();
             reviewRequest.setItems(reviewRequestItems);
-            try{
-                //ResponseEntity<Object> response = feignClient.fetchReviews(reviewRequest);
-                //List<ReviewResponseItem> fetchedReviews = (List<ReviewResponseItem>) response.getBody();
+            try {
                 List<ReviewResponseItem> fetchedReviews = feignClient.fetchReviews(reviewRequest);
-                //LOGGER.info(feignClient.fetchTestReviews());
 
                 for (SearchResult result : results) {
                     for (ReviewResponseItem review : fetchedReviews) {
                         if (result.getItemName().equals(review.getItemName()) && result.getName().equals(review.getRestaurantName())) {
                             result.setRatings(review.getRatings());
                             break; // Break the inner loop once a match is found
-                        }else {
+                        } else {
                             LOGGER.info("result.getItemName() = " + result.getItemName() + ", review.getItemName() = " + review.getItemName() + ", result.getName() = " + result.getName() + ", review.getRestaurantName() = " + review.getRestaurantName());
                         }
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             if (filter != null && !filter.isEmpty()) {
@@ -192,7 +187,7 @@ public class RestaurantRepository {
                     .collect(Collectors.toList());
             if (results.size() == 0) {
                 LOGGER.warn("Item not found: {}", itemName);
-            }else{
+            } else {
                 if (filter != null && !filter.isEmpty()) {
                     results = results.stream()
                             .filter(result -> containsKeyword(result, filter))
@@ -218,13 +213,12 @@ public class RestaurantRepository {
     /**
      * Maps a menu item and its associated searchRestaurant to a search result.
      *
-     * @param menu       The menu item.
+     * @param menu             The menu item.
      * @param searchRestaurant The associated searchRestaurant.
      * @return The search result.
      */
     private SearchResult mapToSearchResultByItem(Menu menu, SearchRestaurant searchRestaurant) {
 
-        //RestaurantSearchResult result = new RestaurantSearchResult();
         RestaurantSearchResult result = (RestaurantSearchResult) SearchResultFactory.getSearchResult("SearchRestaurant");
 
         result.setName(searchRestaurant.getRestaurantName());

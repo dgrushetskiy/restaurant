@@ -13,18 +13,24 @@ import registration.repository.UserRepository;
 public class AppUserDetailsService implements UserDetailsService {
 
     @Autowired
-    UserRepository repoUsr;
+    UserRepository repoUsr; // Repository for accessing user data.
 
     @Override
     public UserDetails loadUserByUsername(String useremail) throws UsernameNotFoundException {
 
-        AppUser appUser = repoUsr.getUserByEmail(useremail);
+        AppUser appUser = repoUsr.getUserByEmail(useremail); // Retrieve the AppUser object based on the provided useremail.
 
         if (appUser == null) {
-            throw new UsernameNotFoundException(useremail);
+            throw new UsernameNotFoundException(useremail); // If the AppUser object is null, throw an exception indicating that the username was not found.
         }
-        UserDetails usr = User.withUsername(appUser.getEmail()).password(appUser.getPassword()).authorities(appUser.getRole()).build();
-        return usr;
+
+        // Create a UserDetails object using the AppUser's email, password, and authorities.
+        UserDetails usr = User.withUsername(appUser.getEmail())
+                .password(appUser.getPassword())
+                .authorities(appUser.getRole())
+                .build();
+
+        return usr; // Return the created UserDetails object.
 
     }
 }

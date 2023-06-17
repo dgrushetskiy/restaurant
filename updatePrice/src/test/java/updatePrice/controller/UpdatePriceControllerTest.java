@@ -6,12 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.messaging.Message;
-import org.springframework.web.bind.annotation.PathVariable;
 import updatePrice.model.Menu;
 import updatePrice.model.MenuList;
 import updatePrice.model.PriceUpdateRequest;
@@ -20,11 +17,8 @@ import updatePrice.repository.RestaurantRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class UpdatePriceControllerTest {
@@ -73,8 +67,6 @@ class UpdatePriceControllerTest {
 
         when(restaurantRepository.getRestaurantByRestaurantName(restaurantName)).thenReturn(existingRestaurant);
         when(objectMapper.writeValueAsString(any())).thenReturn("json");
-        //when(rabbitTemplate.convertAndSend(eq("priceupdate-command"), any(Message.class))).thenReturn(null);
-
 
         // Act
         ResponseEntity<String> responseEntity = updatePriceController.updatePrice(restaurantName, priceUpdateRequest);
@@ -85,7 +77,6 @@ class UpdatePriceControllerTest {
         assertEquals(newPrice, items.get(0).getPrice());
         verify(restaurantRepository, times(1)).getRestaurantByRestaurantName(restaurantName);
         verify(restaurantRepository, times(1)).saveRestaurant(existingRestaurant);
-        //verify(rabbitTemplate, times(1)).convertAndSend(eq("priceupdate-command"), any(Message.class));
     }
 
     @Test
@@ -140,8 +131,6 @@ class UpdatePriceControllerTest {
         assertEquals("Restaurant not found", response.getBody());
         verify(restaurantRepository, never()).saveRestaurant(any(Restaurant.class));
     }
-
-    // Add more test cases to cover other scenarios
 
     private Restaurant createRestaurantWithMenuItems() {
         Restaurant restaurant = new Restaurant();

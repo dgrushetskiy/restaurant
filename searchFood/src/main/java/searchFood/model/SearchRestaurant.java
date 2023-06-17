@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Data // Lombok annotation to automatically generate getters, setters, equals, hashCode, and toString methods
+@AllArgsConstructor // Lombok annotation to generate a constructor with all arguments
+@NoArgsConstructor // Lombok annotation to generate a no-argument constructor
 @DynamoDBTable(tableName = "searchrestaurant")
 public class SearchRestaurant {
 
@@ -28,30 +28,5 @@ public class SearchRestaurant {
 
     @DynamoDBAttribute
     private String updatedAt;
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getRestaurantName() {
-        return restaurantName;
-    }
-
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
-    }
-
-    public MenuList getMenuList() {
-        return menuList;
-    }
-
-    public void setMenuList(MenuList menuList) {
-        this.menuList = menuList;
-    }
-
 
 }

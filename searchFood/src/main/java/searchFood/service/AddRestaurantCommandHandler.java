@@ -21,21 +21,25 @@ public class AddRestaurantCommandHandler {
     @Autowired
     RestaurantRepository restaurantRepository;
 
-
+    // Configure the Jackson2JsonMessageConverter for converting messages
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
+    // Define a RabbitMQ listener for the "addrestaurant-command" queue
     @RabbitListener(queues = "addrestaurant-command")
     public void handleCommand(AddRestaurantCommand restaurantRequest) {
         LOGGER.info("AddRestaurantCommandHandler: Message received in queue addrestaurant-command");
+
+        // Create a new SearchRestaurant object and populate it with data from the received command
         SearchRestaurant searchRestaurant = new SearchRestaurant();
         searchRestaurant.setRestaurantName(restaurantRequest.getRestaurantName());
         searchRestaurant.setAddress(restaurantRequest.getAddress());
         searchRestaurant.setMenuList(restaurantRequest.getMenuList());
         searchRestaurant.setCreatedAt(String.valueOf(LocalDateTime.now()));
 
+        // Save the restaurant data in the repository
         restaurantRepository.saveRestaurant(searchRestaurant);
     }
 }

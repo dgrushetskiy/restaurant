@@ -3,8 +3,8 @@ package searchFood.model;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor // Lombok annotation to generate a constructor with all arguments
+@NoArgsConstructor // Lombok annotation to generate a no-argument constructor
 public class RestaurantSearchResult extends SearchResult{
     private String name;
     private String address;

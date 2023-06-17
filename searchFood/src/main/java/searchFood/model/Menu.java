@@ -6,10 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@DynamoDBDocument
+@Data // Lombok annotation to automatically generate getters, setters, equals, hashCode, and toString methods
+@AllArgsConstructor // Lombok annotation to generate a constructor with all arguments
+@NoArgsConstructor // Lombok annotation to generate a no-argument constructor
+@DynamoDBDocument // Indicates that this class is mapped to a DynamoDB document
 public class Menu {
     @DynamoDBAttribute
     private String itemName;
@@ -20,27 +20,4 @@ public class Menu {
     @DynamoDBAttribute
     private String price;
 
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public String getRatings() {
-        return Ratings;
-    }
-
-    public void setRatings(String ratings) {
-        Ratings = ratings;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
 }

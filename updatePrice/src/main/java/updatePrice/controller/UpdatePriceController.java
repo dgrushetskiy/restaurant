@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,8 +61,8 @@ public class UpdatePriceController {
     /**
      * Updates the price for a specific menu item in a restaurant.
      *
-     * @param restaurantName The name of the restaurant.
-     * @param priceUpdateRequest   The name of the menu item.
+     * @param restaurantName     The name of the restaurant.
+     * @param priceUpdateRequest The name of the menu item.
      * @return ResponseEntity containing the status of the price update or error message.
      */
     @PostMapping("/update-price/menu/{restaurantName}")
@@ -81,7 +82,7 @@ public class UpdatePriceController {
                 return ResponseEntity.badRequest().body("Restaurant not found");
             }
 
-            if (!isValidValue(menuItemName)){
+            if (!isValidValue(menuItemName)) {
                 LOGGER.warn("Invalid item name: {}", menuItemName);
                 return ResponseEntity.badRequest().body("Item name " + menuItemName + " is invalid");
             }
@@ -144,6 +145,7 @@ public class UpdatePriceController {
             return ResponseEntity.status(500).body("Internal Server Error");
         }
     }
+
     public static boolean isValidValue(String value) {
         for (Menu.ItemName itemName : Menu.ItemName.values()) {
             if (itemName.getValue().equals(value)) {

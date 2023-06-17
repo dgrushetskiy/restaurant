@@ -1,10 +1,7 @@
-# Amazon DynamoDB configuration
+# Amazon DynamoDB, AWS configuration
 amazon:
   dynamodb:
     endpoint: http://localhost:8000
-
-# AWS configuration
-amazon:
   aws:
     region: us-east-1
     accesskey: dummyid

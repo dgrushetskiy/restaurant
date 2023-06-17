@@ -29,7 +29,6 @@ class AddRestaurantCommandHandlerTest {
         MockitoAnnotations.openMocks(this);
         addRestaurantCommandHandler = new AddRestaurantCommandHandler();
         addRestaurantCommandHandler.restaurantRepository = restaurantRepository;
-        //addRestaurantCommandHandler.LOGGER = logger;
     }
 
     @Test
@@ -40,15 +39,12 @@ class AddRestaurantCommandHandlerTest {
         addRestaurantCommand.setAddress("123 Main Street");
         SearchRestaurant searchRestaurant = new SearchRestaurant();
         addRestaurantCommand.setMenuList(searchRestaurant.getMenuList());
-        //addRestaurantCommand.setCreatedAt(LocalDateTime.now());
 
         // Act
         addRestaurantCommandHandler.handleCommand(addRestaurantCommand);
 
         // Assert
         verify(restaurantRepository, times(1)).saveRestaurant(any(SearchRestaurant.class));
-        //verify(logger, times(1)).info("AddRestaurantCommandHandler: Message received in queue addrestaurant-command");
     }
-
 }
 

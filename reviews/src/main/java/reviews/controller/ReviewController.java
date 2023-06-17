@@ -10,6 +10,7 @@ import reviews.model.ResponseItem;
 import reviews.model.ReviewRequest;
 import reviews.model.ReviewResponse;
 import reviews.repository.ReviewRepository;
+
 import java.util.List;
 
 //@CrossOrigin(origins = "http://localhost:3001")
@@ -31,20 +32,14 @@ public class ReviewController {
         LOGGER.info("Start findReviews");
 
         try {
+            // Call the repository to find reviews based on the request
             List<ResponseItem> myList = reviewRepository.findItemReviews(request);
 
             return myList;
-        }catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("An error occurred while processing the search request.", e);
         }
-        return null;
-    }
 
-//    @GetMapping("/test")
-//    public ResponseEntity<Object> testReviews() {
-//        LOGGER.info("Start testReviews");
-//
-//        LOGGER.info("Request processed successfully.");
-//        return ResponseEntity.ok("Processed Successfully");
-//    }
+        return null; // Return null if an error occurred
+    }
 }
