@@ -15,8 +15,6 @@ public class ReviewsFallback implements ReviewsFeignClient {
 
     @Override
     public List<ReviewResponseItem> fetchReviews(ReviewRequest request) {
-        LOGGER.info("ReviewsFallback - fetchReviews");
-
         // Return an empty list as a fallback response for fetching reviews
         return new ArrayList<>();
     }

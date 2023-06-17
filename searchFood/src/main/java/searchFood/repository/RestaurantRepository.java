@@ -30,10 +30,6 @@ public class RestaurantRepository {
         this.feignClient = feignClient;
     }
 
-    public DynamoDBMapper getDynamoDBMapper() {
-        return dynamoDBMapper;
-    }
-
     public void setDynamoDBMapper(DynamoDBMapper dynamoDBMapper) {
         this.dynamoDBMapper = dynamoDBMapper;
     }
@@ -175,8 +171,7 @@ public class RestaurantRepository {
                                                  int page,
                                                  int size) {
         LOGGER.info("Finding items by name: {}", itemName);
-        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-        List<SearchRestaurant> searchRestaurantList = dynamoDBMapper.scan(SearchRestaurant.class, scanExpression);
+        List<SearchRestaurant> searchRestaurantList = getAllRestaurants();
         List<SearchResult> results = new ArrayList<>();
 
         try {
@@ -228,5 +223,10 @@ public class RestaurantRepository {
         result.setPrice(menu.getPrice());
 
         return result;
+    }
+
+    public List<SearchRestaurant> getAllRestaurants(){
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        return dynamoDBMapper.scan(SearchRestaurant.class, scanExpression);
     }
 }
